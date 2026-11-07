@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Administrador Master - RH Sem Limites</title>
+  <style>
+    :root {
+      --primary: #0a66c2;          /* Azul corporativo / LinkedIn */
+      --primary-dark: #004182;
+      --accent: #2e7d32;
+      --bg-color: #f3f2ef;        /* Fundo suave estilo LinkedIn */
+      --card-bg: #ffffff;
+      --text-color: #191919;
+      --border-color: #cccccc;
+      --focus-outline: #0a66c2;
+      
+      --status-green: #2e7d32;
+      --status-yellow: #f39c12;
+      --status-orange: #d35400;
+      --status-red: #c62828;
+    }
+
+    /* ALTO CONTRASTE VISUAL */
+    body.high-contrast {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --text-color: #ffeb3b;
+      --primary: #ffeb3b;
+      --primary-dark: #fbc02d;
+      --border-color: #ffeb3b;
+      --accent: #00e676;
+    }
+    body.high-contrast a, body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast label {
+      color: #ffeb3b !important;
+    }
+    body.high-contrast .section-card, body.high-contrast .header-card, body.high-contrast .client-item, body.high-contrast .sub-box {
+      background-color: #121212 !important;
+      border-color: #ffeb3b !important;
+      color: #ffeb3b !important;
+    }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px 10px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* BARRA DE ACESSIBILIDADE */
+    .accessibility-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-acess {
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .btn-acess:hover, .btn-acess:focus {
+      background: #e9ecef;
+      outline: 2px solid var(--focus-outline);
+    }
+
+    .header-card {
+      background: var(--card-bg);
+      border: 2px solid var(--primary-dark);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .header-card h1 {
+      color: var(--primary-dark);
+      margin: 0 0 8px 0;
+      font-size: 1.8rem;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .section-card h2 {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+    }
+
+    .btn-action {
+      background-color: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .btn-action:hover, .btn-action:focus {
+      background-color: var(--primary-dark);
+      outline: 3px solid var(--focus-outline);
+    }
+
+    textarea, input[type="text"], input[type="password"], input[type="url"], select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      background-color: #fff;
+      color: var(--text-color);
+    }
+
+    .client-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #fafafa;
+    }
+
+    .badge-status {
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: white;
+      display: inline-block;
+      margin-top: 6px;
+    }
+
+    .status-ativo { background-color: var(--status-green); }
+    .status-aviso { background-color: var(--status-yellow); color: #000; }
+    .status-pendente { background-color: var(--status-orange); }
+    .status-critico { background-color: var(--status-red); }
+
+    .sub-box {
+      background: #f8f9fa;
+      border: 1px solid #dcd6c8;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<main class="container">
+
+  <!-- BARRA DE ACESSIBILIDADE VISUAL -->
+  <div class="accessibility-bar">
+    <button class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
+      👁️ Opções de Acessibilidade Visual (Contraste e Fontes)
+    </button>
+    <div id="painelAcessibilidade" class="accessibility-controls hidden" style="width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
+      <button class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
+      <button class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
+      <button class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO DO DIRETOR -->
+  <header class="header-card">
+    <h1>⚙️ Painel de Controle Master (Administrador)</h1>
+    <p>Gestão Geral de Clientes, Vagas, Moderação, Links de Pagamento e Credenciais do Diretor na <strong>RH Sem Limites</strong>.</p>
+  </header>
+
+  <!-- SEGURANÇA & CREDENCIAIS DO DIRETOR -->
+  <section class="section-card">
+    <h2>🔑 Segurança & Credenciais do Administrador</h2>
+    <p>Altere seu usuário e senha de acesso ao Painel Master a qualquer momento:</p>
+
+    <button class="btn-action" style="background-color: #333;" onclick="alternarBloco('boxCredenciais')">🔒 Gerenciar Usuário e Senha do Diretor</button>
+
+    <div id="boxCredenciais" class="sub-box hidden">
+      <form onsubmit="salvarCredenciais(event)">
+        <label><strong>Usuário Master do Diretor:</strong></label>
+        <input type="text" id="usuarioMaster" value="odacir.silveira" required>
+
+        <label><strong>Nova Senha de Acesso:</strong></label>
+        <input type="password" id="senhaMaster" placeholder="Digite a nova senha..." required>
+
+        <label><strong>Confirmar Nova Senha:</strong></label>
+        <input type="password" id="confirmarSenhaMaster" placeholder="Confirme a nova senha..." required>
+
+        <button type="submit" class="btn-action" style="background-color: var(--accent);">💾 Salvar Novas Credenciais</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 1. GESTÃO E FILTRO DE STATUS DOS CLIENTES -->
+  <section class="section-card">
+    <h2>1. Gestão de Empresas e Status Financeiro</h2>
+    <p>Selecione um filtro abaixo para alternar a visualização dos clientes por situação de assinatura:</p>
+
+    <div class="filter-bar">
+      <button class="btn-action" style="background-color: #333;" onclick="filtrarStatus('todos')">Exibir Todos</button>
+      <button class="btn-action" style="background-color: var(--status-green);" onclick="filtrarStatus('ativo')">🟢 Somente Ativos</button>
+      <button class="btn-action" style="background-color: var(--status-yellow); color: #000;" onclick="filtrarStatus('aviso')">🟡 Aviso 15 Dias</button>
+      <button class="btn-action" style="background-color: var(--status-orange);" onclick="filtrarStatus('pendente')">🟠 Parcela Pendente</button>
+      <button class="btn-action" style="background-color: var(--status-red);" onclick="filtrarStatus('critico')">🔴 Renovação 7 Dias</button>
+    </div>
+
+    <!-- LISTA DE CLIENTES -->
+    <div id="listaClientes">
+      <article class="client-item cliente-ativo">
+        <div>
+          <h3>Empresa Parceira Exemplo 1</h3>
+          <p><strong>Plano:</strong> Base (3 vagas / trimestre)</p>
+          <span class="badge-status status-ativo">[ATIVO] - Assinatura em Dia</span>
+        </div>
+        <div style="margin-top: 10px;">
+          <button class="btn-action" onclick="alternarBloco('acoesEmpresa1')">⚙️ Gerenciar Empresa (Opções)</button>
+          
+          <div id="acoesEmpresa1" class="sub-box hidden">
+            <p><strong>Selecione uma ação para Empresa Parceira Exemplo 1:</strong></p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <a href="https://wa.me/5549999208261" target="_blank" class="btn-action" style="background-color: #25d366;">💬 Enviar WhatsApp</a>
+              <a href="mailto:contato@empresa.com" class="btn-action" style="background-color: #134255;">✉️ Enviar E-mail</a>
+              <button class="btn-action" style="background-color: #777;" onclick="ocultarPerfil('Empresa Parceira Exemplo 1')">👁️ Deixar Oculto (Pausar)</button>
+              <button class="btn-action" style="background-color: var(--status-red);" onclick="moverParaLixeira('Empresa Parceira Exemplo 1')">🗑️ Mover para a Lixeira</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 2. MODERAÇÃO DE VAGAS -->
+  <section class="section-card">
+    <h2>2. Moderação de Vagas Publicadas & Filtro de Conteúdo</h2>
+    <p>Acompanhe as vagas ativas e configure a lista de palavras bloqueadas pelo sistema:</p>
+
+    <button class="btn-action" onclick="alternarBloco('boxModeracaoVagas')">📋 Gerenciar Vagas Ativas no Portal</button>
+    <button class="btn-action" style="background-color: #555;" onclick="alternarBloco('boxFiltroPalavras')">🚫 Configurar Palavras Bloqueadas</button>
+
+    <div id="boxModeracaoVagas" class="sub-box hidden">
+      <h3>Vagas Aguardando Revisão ou Ativas</h3>
+      <article class="client-item">
+        <div>
+          <h4>Auxiliar de Estoque - Indústria</h4>
+          <p><strong>Empresa:</strong> Empresa Parceira Exemplo 1 | <strong>Local:</strong> Chapecó/SC (Efapi)</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-action" style="background-color: var(--accent);" onclick="aprovarVaga('Auxiliar de Estoque')">✓ Aprovar Vaga</button>
+          <button class="btn-action" style="background-color: var(--status-red);" onclick="moverParaLixeira('Vaga Auxiliar de Estoque')">🗑️ Remover Vaga</button>
+        </div>
+      </article>
+    </div>
+
+    <div id="boxFiltroPalavras" class="sub-box hidden">
+      <h3>Lista de Palavras e Termos Bloqueados (Separe por vírgula)</h3>
+      <textarea rows="3">prostituta, ilícito, fraude, cobrança taxa entrevista</textarea>
+      <button class="btn-action" style="background-color: var(--accent);" onclick="salvarFiltroPalavras()">💾 Salvar Lista de Filtro</button>
+    </div>
+  </section>
+
+  <!-- 3. LIXEIRA DO SISTEMA -->
+  <section class="section-card" style="border-color: var(--status-red);">
+    <h2 style="color: var(--status-red);">3. Lixeira do Sistema (Área de Segurança)</h2>
+    <p>Itens removidos ficam salvos aqui antes de serem apagados definitivamente:</p>
+
+    <button class="btn-action" style="background-color: #333;" onclick="alternarBloco('boxLixeira')">🗑️ Abrir Lixeira do Sistema</button>
+
+    <div id="boxLixeira" class="sub-box hidden" style="border-color: var(--status-red);">
+      <div id="itensLixeira">
+        <article class="client-item">
+          <div>
+            <h3>Candidato Exemplo Removido</h3>
+            <p><strong>Tipo:</strong> Perfil de Candidato | <strong>Removido em:</strong> Hoje</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-action" style="background-color: var(--accent);" onclick="restaurarItem('Candidato Exemplo Removido')">♻️ Restaurar Perfil</button>
+            <button class="btn-action" style="background-color: var(--status-red);" onclick="excluirDefinitivo('Candidato Exemplo Removido')">❌ Excluir Definitivamente</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. LINKS DE PAGAMENTO -->
+  <section class="section-card">
+    <h2>4. Central de Links de Pagamento (Mercado Pago / Checkout)</h2>
+    <form onsubmit="salvarLinksPagamento(event)">
+      <label><strong>Link do Plano Avulso (R$ 50,00):</strong></label>
+      <input type="url" required>
+
+      <label><strong>Link do Plano Base (R$ 49,90/mês):</strong></label>
+      <input type="url" required>
+
+      <label><strong>Link do Plano Intermediário (R$ 69,90/mês):</strong></label>
+      <input type="url" required>
+
+      <label><strong>Link do Plano Avançado (R$ 99,90/mês):</strong></label>
+      <input type="url" required>
+
+      <label><strong>Link do Plano VIP Corporativo (R$ 199,90/mês):</strong></label>
+      <input type="url" required>
+
+      <button type="submit" class="btn-action" style="background-color: var(--accent);">💾 Salvar e Atualizar Links de Pagamento</button>
+    </form>
+  </section>
+
+</main>
+
+<script>
+  function alternarAltoContraste() {
+    document.body.classList.toggle('high-contrast');
+  }
+
+  let currentFontSize = 1;
+  function alterarFonte(acao) {
+    if (acao === 'aumentar' && currentFontSize < 1.3) currentFontSize += 0.1;
+    else if (acao === 'diminuir' && currentFontSize > 0.9) currentFontSize -= 0.1;
+    document.documentElement.style.fontSize = currentFontSize + 'rem';
+  }
+
+  function alternarBloco(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+  }
+
+  function salvarCredenciais(e) {
+    e.preventDefault();
+    const s1 = document.getElementById('senhaMaster').value;
+    const s2 = document.getElementById('confirmarSenhaMaster').value;
+
+    if (s1 !== s2) {
+      alert('Atenção: As senhas digitadas não coincidem!');
+      return;
+    }
+
+    alert('Credenciais do Administrador atualizadas com sucesso!');
+    document.getElementById('boxCredenciais').classList.add('hidden');
+  }
+
+  function filtrarStatus(status) {
+    const todos = document.querySelectorAll('.client-item');
+    todos.forEach(item => {
+      if (status === 'todos') {
+        item.style.display = 'block';
+      } else {
+        if (item.classList.contains('cliente-' + status)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  function ocultarPerfil(nome) {
+    alert(`O perfil de "${nome}" foi alterado para OCULTO no sistema.`);
+  }
+
+  function moverParaLixeira(nome) {
+    alert(`"${nome}" foi movido para a LIXEIRA DO SISTEMA. Você pode restaurá-lo na seção 3.`);
+  }
+
+  function restaurarItem(nome) {
+    alert(`"${nome}" foi restaurado da lixeira com sucesso!`);
+  }
+
+  function excluirDefinitivo(nome) {
+    if (confirm(`Atenção: Deseja apagar definitivamente "${nome}"?`)) {
+      alert(`"${nome}" foi excluído permanentemente.`);
+    }
+  }
+
+  function aprovarVaga(titulo) {
+    alert(`A vaga "${titulo}" foi revisada e aprovada para publicação no portal!`);
+  }
+
+  function salvarFiltroPalavras() {
+    alert('Lista de palavras bloqueadas atualizada com sucesso!');
+  }
+
+  function salvarLinksPagamento(e) {
+    e.preventDefault();
+    alert('Links de pagamento salvos com sucesso!');
+  }
+</script>
+
+</body>
+</html>

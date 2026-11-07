@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro da Empresa - RH Sem Limites</title>
+  <style>
+    :root {
+      --primary: #0a66c2;          /* Azul corporativo / LinkedIn */
+      --primary-dark: #004182;
+      --accent: #2e7d32;
+      --bg-color: #f3f2ef;        /* Fundo suave estilo LinkedIn */
+      --card-bg: #ffffff;
+      --text-color: #191919;
+      --border-color: #cccccc;
+      --focus-outline: #0a66c2;
+    }
+
+    /* ALTO CONTRASTE VISUAL */
+    body.high-contrast {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --text-color: #ffeb3b;
+      --primary: #ffeb3b;
+      --primary-dark: #fbc02d;
+      --border-color: #ffeb3b;
+      --accent: #00e676;
+    }
+    body.high-contrast a, body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast label, body.high-contrast legend {
+      color: #ffeb3b !important;
+    }
+    body.high-contrast fieldset, body.high-contrast .container {
+      background-color: #121212 !important;
+      border-color: #ffeb3b !important;
+    }
+    body.high-contrast input, body.high-contrast select, body.high-contrast textarea {
+      background-color: #1a1a1a !important;
+      color: #ffeb3b !important;
+      border-color: #ffeb3b !important;
+    }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px 10px;
+      font-size: var(--base-font-size, 1rem);
+    }
+
+    .container {
+      max-width: 750px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color);
+    }
+
+    /* BARRA DE ACESSIBILIDADE */
+    .accessibility-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-acess {
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .btn-acess:hover, .btn-acess:focus {
+      background: #e9ecef;
+      outline: 2px solid var(--focus-outline);
+    }
+
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    fieldset {
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 24px;
+      background-color: #ffffff;
+    }
+
+    legend {
+      font-weight: bold;
+      color: var(--primary-dark);
+      padding: 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      background-color: #fff;
+      color: var(--text-color);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 3px solid var(--focus-outline);
+      outline-offset: 2px;
+    }
+
+    .sugestoes-box {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .sugestao-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #eeeeee;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .sugestao-item:hover, .sugestao-item:focus {
+      background-color: #eef6f9;
+      color: var(--primary-dark);
+      outline: none;
+    }
+
+    .radios-inline {
+      display: flex;
+      gap: 20px;
+      margin-top: 6px;
+    }
+
+    .radios-inline label {
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .checkbox-item input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* CAIXA DE ALERTA LEI DE COTAS */
+    .box-cotas {
+      background-color: #e8f5e9;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .box-cotas h4 {
+      margin: 0 0 8px 0;
+      color: var(--accent);
+      font-size: 1.05rem;
+    }
+
+    .box-cotas p {
+      margin: 0 0 12px 0;
+      font-size: 0.95rem;
+      color: #1b5e20;
+    }
+
+    .contatos-cotas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-cotas {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .btn-whats {
+      background-color: #25d366;
+    }
+
+    .btn-email {
+      background-color: var(--primary);
+    }
+
+    .btn-submit {
+      background-color: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover, .btn-submit:focus {
+      background-color: var(--primary-dark);
+      outline: 3px solid var(--focus-outline);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<main class="container">
+
+  <!-- BARRA DE ACESSIBILIDADE VISUAL -->
+  <div class="accessibility-bar">
+    <button class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
+      👁️ Opções de Acessibilidade Visual (Contraste e Fontes)
+    </button>
+    <div id="painelAcessibilidade" class="accessibility-controls hidden" style="width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
+      <button class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
+      <button class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
+      <button class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
+    </div>
+  </div>
+
+  <h1>CADASTRO DA EMPRESA - RH SEM LIMITES</h1>
+
+  <form id="formEmpresa" onsubmit="finalizarCadastro(event)" aria-label="Formulário de Cadastro de Empresa">
+
+    <!-- BLOCO 1: DADOS INSTITUCIONAIS -->
+    <fieldset>
+      <legend>1. Identificação da Empresa & Natureza Jurídica</legend>
+
+      <div class="form-group">
+        <label for="razosocial">Razão Social *</label>
+        <input type="text" id="razosocial" name="razosocial" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="nomeFantasia">Nome Fantasia *</label>
+        <input type="text" id="nomeFantasia" name="nomeFantasia" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="cnpj">CNPJ *</label>
+        <input type="text" id="cnpj" name="cnpj" maxlength="18" placeholder="00.000.000/0000-00" required aria-required="true" oninput="mascaraCNPJ(this)">
+      </div>
+
+      <!-- NATUREZA JURÍDICA / PORTE SOCIETÁRIO -->
+      <div class="form-group">
+        <label for="naturezaJuridica">Natureza Jurídica / Porte *</label>
+        <select id="naturezaJuridica" name="naturezaJuridica" required aria-required="true">
+          <option value="">Selecione...</option>
+          <option value="MEI">MEI (Microempreendedor Individual)</option>
+          <option value="ME">ME (Microempresa)</option>
+          <option value="EPP">EPP (Empresa de Pequeno Porte)</option>
+          <option value="SLU">SLU (Sociedade Limitada Unipessoal - substituta da EIRELI)</option>
+          <option value="LTDA">LTDA (Sociedade Limitada)</option>
+          <option value="SA">S/A (Sociedade Anônima)</option>
+          <option value="Cooperativa">Cooperativa</option>
+          <option value="Associacao">Associação / Entidade de Classe</option>
+          <option value="ONG_OSC">ONG / OSC / Instituição Sem Fins Lucrativos</option>
+          <option value="Outro">Outro / Outros Formatos</option>
+        </select>
+      </div>
+
+      <!-- INSCRIÇÃO ESTADUAL & ISENÇÃO -->
+      <div class="form-group">
+        <label for="inscricaoEstadual">Inscrição Estadual (IE)</label>
+        <input type="text" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Digite a IE ou marque isento abaixo">
+      </div>
+
+      <div class="checkbox-item" style="margin-bottom: 16px;">
+        <input type="checkbox" id="isentoIE" name="isentoIE" onchange="alternarIsencaoIE(this.checked)">
+        <label for="isentoIE"><strong>Empresa Isenta de Inscrição Estadual</strong></label>
+      </div>
+
+      <div class="form-group">
+        <label for="ramoInput">Segmento / Ramo de Atuação (Digite para buscar) *</label>
+        <input type="text" id="ramoInput" placeholder="Ex: Supermercado, Frigorífico, Transportadora..." autocomplete="off" required aria-required="true" oninput="filtrarRamos(this.value)">
+        <div id="sugestoesRamo" class="sugestoes-box hidden"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Unidade *</label>
+        <div class="radios-inline">
+          <label><input type="radio" name="tipoUnidade" value="Matriz" checked> Matriz</label>
+          <label><input type="radio" name="tipoUnidade" value="Filial"> Filial</label>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 14px;">
+        <label>Possui outras Lojas / Unidades?</label>
+        <div class="radios-inline">
+          <label><input type="radio" name="temOutrasLojas" value="Não" onchange="alternarOutrasLojas(false)" checked> Não (Unidade Única)</label>
+          <label><input type="radio" name="temOutrasLojas" value="Sim" onchange="alternarOutrasLojas(true)"> Sim</label>
+        </div>
+      </div>
+
+      <div class="form-group hidden" id="boxQtdLojas">
+        <label for="qtdLojas">Quantas Lojas / Unidades o grupo possui?</label>
+        <input type="number" id="qtdLojas" name="qtdLojas" min="2" placeholder="Ex: 5">
+      </div>
+    </fieldset>
+
+    <!-- BLOCO 2: PORTE DA EMPRESA & LEI DE COTAS -->
+    <fieldset>
+      <legend>2. Porte & Número de Colaboradores</legend>
+
+      <div class="form-group">
+        <label for="porteColaboradores">Faixa de Número de Colaboradores *</label>
+        <select id="porteColaboradores" name="porteColaboradores" required aria-required="true" onchange="verificarLeiCotas(this.value)">
+          <option value="">Selecione...</option>
+          <option value="1 a 10">1 a 10 colaboradores</option>
+          <option value="11 a 25">11 a 25 colaboradores</option>
+          <option value="26 a 50">26 a 50 colaboradores</option>
+          <option value="51 a 99">51 a 99 colaboradores</option>
+          <option value="100 a 200">100 a 200 colaboradores</option>
+          <option value="201 a 300">201 a 300 colaboradores</option>
+          <option value="301 a 500">301 a 500 colaboradores</option>
+          <option value="501 a 1000">501 a 1000 colaboradores</option>
+          <option value="Acima de 1000">Acima de 1000 colaboradores</option>
+          <option value="outro">Digitar quantidade exata...</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="boxQtdExata">
+        <label for="qtdExataColaboradores">Número Exato de Colaboradores:</label>
+        <input type="number" id="qtdExataColaboradores" name="qtdExataColaboradores" placeholder="Ex: 150" oninput="verificarQtdExata(this.value)">
+      </div>
+
+      <!-- DESTAQUE INTELIGENTE LEI DE COTAS -->
+      <div id="boxAlertaCotas" class="box-cotas hidden">
+        <h4>♿ Atenção: Sua empresa se enquadra na Lei de Cotas (Lei nº 8.213/91)</h4>
+        <p>Você já faz parte de incluir colaboradores na lei de cotas! Se precisar, estamos disponíveis para orientar sua equipe de como proceder. Entre em contato conosco:</p>
+        <div class="contatos-cotas">
+          <a href="https://wa.me/5549999208261?text=Olá,%20somos%20uma%20empresa%20com%20mais%20de%20100%20funcionários%20e%20gostaria%20de%20suporte%20na%20Lei%20de%20Cotas" target="_blank" class="btn-cotas btn-whats">📲 WhatsApp: (49) 99920-8261</a>
+          <a href="mailto:rhsemlimites2024@gmail.com?subject=Suporte%20Lei%20de%20Cotas%20-%20RH%20Sem%20Limites" class="btn-cotas btn-email">✉️ E-mail: rhsemlimites2024@gmail.com</a>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- BLOCO 3: CONTATO DO RESPONSÁVEL -->
+    <fieldset>
+      <legend>3. Responsável pelo Recrutamento / RH</legend>
+
+      <div class="form-group">
+        <label for="nomeResponsavel">Nome do Responsável / Recrutador *</label>
+        <input type="text" id="nomeResponsavel" name="nomeResponsavel" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="cargoResponsavel">Cargo do Responsável *</label>
+        <input type="text" id="cargoResponsavel" name="cargoResponsavel" placeholder="Ex: Gerente de RH, Recrutador, Proprietário..." required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="emailResponsavel">E-mail Corporativo *</label>
+        <input type="email" id="emailResponsavel" name="emailResponsavel" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="telefoneResponsavel">Telefone / WhatsApp para Contato *</label>
+        <input type="tel" id="telefoneResponsavel" name="telefoneResponsavel" maxlength="15" placeholder="(049) 99900-0000" required aria-required="true" oninput="mascaraTelefone(this)">
+      </div>
+    </fieldset>
+
+    <!-- BLOCO 4: LOCALIZAÇÃO DA EMPRESA -->
+    <fieldset>
+      <legend>4. Endereço da Empresa</legend>
+
+      <div class="form-group">
+        <label for="cep">CEP (Digite os 8 números) *</label>
+        <input type="text" id="cep" name="cep" maxlength="9" placeholder="00000-000" required aria-required="true" onkeyup="verificarCEP(this.value)" onblur="buscarCEP(this.value)">
+      </div>
+
+      <div class="form-group">
+        <label for="rua">Rua / Avenida *</label>
+        <input type="text" id="rua" name="rua" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="numero">Número / Complemento *</label>
+        <input type="text" id="numero" name="numero" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="bairro">Bairro *</label>
+        <input type="text" id="bairro" name="bairro" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="cidade">Cidade *</label>
+        <input type="text" id="cidade" name="cidade" required aria-required="true">
+      </div>
+
+      <div class="form-group">
+        <label for="estado">Estado (UF) *</label>
+        <input type="text" id="estado" name="estado" maxlength="2" required aria-required="true">
+      </div>
+    </fieldset>
+
+    <!-- BLOCO 5: PRESENÇA DIGITAL & TERMOS -->
+    <fieldset>
+      <legend>5. Presença Digital & Termos</legend>
+
+      <div class="form-group">
+        <label for="website">Website da Empresa (Opcional):</label>
+        <input type="url" id="website" name="website" placeholder="https://www.suaempresa.com.br">
+      </div>
+
+      <div class="form-group">
+        <label for="linkedinEmpresa">LinkedIn da Empresa (Opcional):</label>
+        <input type="url" id="linkedinEmpresa" name="linkedinEmpresa" placeholder="https://www.linkedin.com/company/suaempresa">
+      </div>
+
+      <div class="checkbox-item" style="margin-top: 18px;">
+        <input type="checkbox" id="lgpdEmpresa" name="lgpdEmpresa" required aria-required="true">
+        <label for="lgpdEmpresa">Declaramos estar de acordo com a utilização dos dados corporativos para cadastro, publicação de vagas e conexão com candidatos na plataforma RH Sem Limites, conforme a LGPD. *</label>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn-submit">Concluir Cadastro e Acessar Painel Corporativo</button>
+  </form>
+</main>
+
+<script>
+  // LISTA COMPLETA DE RAMOS/SEGMENTOS
+  const baseRamos = [
+    "Açougue e Casa de Carnes", "Academia e Centro Esportivo", "Advocacia e Consultoria Jurídica", "Agência de Marketing e Propaganda",
+    "Agronegócio", "Agropecuária", "Alimentação e Gastronomia", "Assistência Técnica e Manutenção", "Associação Comercial e Empresarial",
+    "Associação de Bairro e Comunitária", "Atacado de Alimentos", "Atacadista e Distribuidora", "Atacadista de Embalagens", "Ateliê",
+    "Auto Mecânica e Oficina Automotiva", "Autoescola e Centro de Formação de Condutores", "Banco e Instituição Financeira",
+    "Bar e Pub", "Bazar e Presentes", "Borracharia", "Boutique de Roupas", "Buffet para Casamentos e Festas", "Cafeteria e Confeitaria",
+    "Centro de Treinamento Profissional", "Clínica Dermatológica", "Clínica de Estética", "Clínica de Fisioterapia", "Clínica de Psicologia",
+    "Clínica Médica e Diagnóstico", "Clínica Odontológica", "Clínica Oftalmológica", "Clínica Veterinária", "Clube e Centro Aquático",
+    "Clube de Escritores", "Clube de Natação", "Comércio e Varejo", "Companhia Aérea", "Concessionária de Veículos", "Construtora",
+    "Consultório Médico / Odontológico", "Consultoria Empresarial e de RH", "Cooperativa Agrícola", "Cooperativa Social",
+    "Corretora de Seguros", "Distribuidora de Alimentos e Bebidas", "Distribuidora de Embalagens", "Distribuidora de Gás",
+    "Distribuidora de Produtos Farmacêuticos", "Educação e Treinamento", "Empresa de Cursos e Treinamentos", "Empresa de Desentupidora",
+    "Empresa de Desenvolvimento de Software", "Empresa de Entrega Expressa e Motoboy", "Empresa de Esquadrias", "Empresa de Eventos",
+    "Empresa de Festas Infantis", "Empresa de Grãos e Cereais", "Empresa de Higienização de Veículos", "Empresa de Infraestrutura de TI e Redes",
+    "Empresa de Limpeza e Conservação", "Empresa de Logística e Armazenagem", "Empresa de Revenda de Veículos", "Empresa de Seguro de Automóveis",
+    "Empresa de Segurança e Vigilância", "Empresa de Transporte Executivo e Táxi", "Empresa de Transporte Rodoviário de Passageiros",
+    "Empresa de Vidraçaria", "Escola de Cursos Profissionalizantes", "Escola de Ensino Fundamental e Médio", "Escola de Idiomas",
+    "Escola Infantil e Berçário", "Escola Técnica", "Escritório de Advocacia", "Escritório de Arquitetura e Urbanismo",
+    "Escritório de Contabilidade", "Escritório de Engenharia", "Escritório de Engenharia e Arquitetura", "Faculdade e Universidade",
+    "Fábrica e Indústria (Geral)", "Fábrica de Bebidas", "Fábrica de Carrocerias", "Fábrica de Câmaras Frias", "Fábrica de Chocolates",
+    "Fábrica de Concreto Usinado", "Fábrica de Equipamentos para Cozinha", "Fábrica de Joias", "Fábrica de Mármores", "Fábrica de Papel",
+    "Fábrica de Produtos de Limpeza", "Fábrica de Produtos para Construção", "Fábrica de Roupas e Acessórios", "Fábrica de Sacolas de Papel e Plásticas",
+    "Fábrica de Velas e Artigos Aromáticos", "Farmácia e Drogaria", "Fast Food", "Floricultura", "Frigorífico e Abate", "Funerária",
+    "Funilaria e Pintura Automotiva", "Fundação Privada Sem Fins Lucrativos", "Hospedagem, Lazer e Turismo", "Hospital e Pronto Atendimento",
+    "Hotel e Pousada", "Imobiliária e Gestão de Imóveis", "Indústria Alimentícia", "Indústria Calçadista", "Indústria de Bebidas",
+    "Indústria de Carvão", "Indústria de Celulose", "Indústria de Chocolates", "Indústria de Colchões", "Indústria de Embalagens",
+    "Indústria de Esquadrias e Funilaria", "Indústria de Ferro e Funilaria", "Indústria de Papel e Celulose", "Indústria de Produtos de Limpeza",
+    "Indústria Farmacêutica", "Indústria Metalúrgica e Serralheria", "Indústria Plástica", "Indústria Química", "Indústria Têxtil e Vestuário",
+    "Instalador de Ar-Condicionado", "Instituto Cultural e Educacional", "Joalheria e Relojoaria", "Laboratório de Análises Clínicas",
+    "Lanchonete", "Livraria e Papelaria", "Loja 10 (Variedades)", "Loja de Acessórios", "Loja de Armarinho e Aviamentos",
+    "Loja de Artigos Gaúchos", "Loja de Artigos Religiosos", "Loja de Bicicletas", "Loja de Calçados", "Loja de Celulares",
+    "Loja de Chocolates", "Loja de Cosméticos e Perfumaria", "Loja de Decoração", "Loja de Eletroeletrônicos", "Loja de Eletrônicos e Informática",
+    "Loja de Equipamentos para Cozinha", "Loja de Ferramentas", "Loja de Malas e Artigos de Viagem", "Loja de Mármores",
+    "Loja de Materiais de Construção", "Loja de Motocicletas", "Loja de Móveis", "Loja de Móveis Planejados", "Loja de Noivas",
+    "Loja de Produtos de Escritório", "Loja de Produtos de Limpeza", "Loja de Produtos Elétricos", "Loja de Produtos Naturais",
+    "Loja de Roupas e Vestuário", "Loja de Toners e Impressoras", "Mercado e Minimercado", "Motel", "Óptica", "Organização Não Governamental (ONG)",
+    "Organização da Sociedade Civil (OSC)", "Padaria e Panificadora", "Paisagismo e Decoração", "Parque Aquático", "Perfumaria",
+    "Pet Shop e Casa Veterinária", "Plataforma de Tecnologia e E-commerce", "Plataforma e Aplicativo de Delivery", "Podologia",
+    "Posto de Gasolina", "Posto de Lavação", "Produção Agrícola", "Resort", "Restaurante", "Salão de Beleza e Estética", "Shopping Center",
+    "Sindicato e Associação de Classe", "Sorveteria", "Startup de Tecnologia", "Super Atacadista", "Supermercado e Hipermercado",
+    "Transportadora de Cargas", "Vinícola e Adega"
+  ];
+
+  function alternarAltoContraste() {
+    document.body.classList.toggle('high-contrast');
+  }
+
+  let currentFontSize = 1;
+  function alterarFonte(acao) {
+    if (acao === 'aumentar' && currentFontSize < 1.3) currentFontSize += 0.1;
+    else if (acao === 'diminuir' && currentFontSize > 0.9) currentFontSize -= 0.1;
+    document.documentElement.style.fontSize = currentFontSize + 'rem';
+  }
+
+  function alternarBloco(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+  }
+
+  function filtrarRamos(texto) {
+    const container = document.getElementById('sugestoesRamo');
+    if (!texto || texto.trim().length < 2) {
+      container.innerHTML = '';
+      container.classList.add('hidden');
+      return;
+    }
+
+    const termo = texto.toLowerCase();
+    const filtradas = baseRamos.filter(r => r.toLowerCase().includes(termo));
+
+    if (filtradas.length === 0) {
+      container.innerHTML = '';
+      container.classList.add('hidden');
+      return;
+    }
+
+    container.innerHTML = filtradas.slice(0, 8).map(r => `
+      <div class="sugestao-item" tabindex="0" onclick="selecionarRamo('${r}')" onkeypress="if(event.key==='Enter') selecionarRamo('${r}')">${r}</div>
+    `).join('');
+
+    container.classList.remove('hidden');
+  }
+
+  function selecionarRamo(valor) {
+    const campo = document.getElementById('ramoInput');
+    campo.value = valor;
+    const container = document.getElementById('sugestoesRamo');
+    container.innerHTML = '';
+    container.classList.add('hidden');
+  }
+
+  function alternarIsencaoIE(isento) {
+    const campoIE = document.getElementById('inscricaoEstadual');
+    if (isento) {
+      campoIE.value = 'Isento';
+      campoIE.disabled = true;
+    } else {
+      campoIE.value = '';
+      campoIE.disabled = false;
+      campoIE.focus();
+    }
+  }
+
+  function alternarOutrasLojas(sim) {
+    const box = document.getElementById('boxQtdLojas');
+    if (sim) {
+      box.classList.remove('hidden');
+    } else {
+      box.classList.add('hidden');
+      document.getElementById('qtdLojas').value = '';
+    }
+  }
+
+  function verificarLeiCotas(valor) {
+    const boxExata = document.getElementById('boxQtdExata');
+    const boxAlerta = document.getElementById('boxAlertaCotas');
+
+    if (valor === 'outro') {
+      boxExata.classList.remove('hidden');
+      boxAlerta.classList.add('hidden');
+    } else {
+      boxExata.classList.add('hidden');
+      
+      const faixasCotas = ["100 a 200", "201 a 300", "301 a 500", "501 a 1000", "Acima de 1000"];
+      if (faixasCotas.includes(valor)) {
+        boxAlerta.classList.remove('hidden');
+      } else {
+        boxAlerta.classList.add('hidden');
+      }
+    }
+  }
+
+  function verificarQtdExata(qtd) {
+    const boxAlerta = document.getElementById('boxAlertaCotas');
+    const num = parseInt(qtd, 10);
+    if (num >= 100) {
+      boxAlerta.classList.remove('hidden');
+    } else {
+      boxAlerta.classList.add('hidden');
+    }
+  }
+
+  function mascaraCNPJ(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 14) v = v.slice(0, 14);
+    v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+    v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+    v = v.replace(/(\d{4})(\d)/, '$1-$2');
+    input.value = v;
+  }
+
+  function mascaraTelefone(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 10) {
+      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (v.length > 6) {
+      v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+    } else if (v.length > 2) {
+      v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+    }
+    input.value = v;
+  }
+
+  function verificarCEP(valor) {
+    const c = valor.replace(/\D/g, '');
+    if (c.length === 8) buscarCEP(c);
+  }
+
+  function buscarCEP(cep) {
+    const c = cep.replace(/\D/g, '');
+    if (c.length === 8) {
+      fetch(`https://viacep.com.br/ws/${c}/json/`)
+        .then(res => res.json())
+        .then(dados => {
+          if (!dados.erro) {
+            document.getElementById('rua').value = dados.logradouro;
+            document.getElementById('bairro').value = dados.bairro;
+            document.getElementById('cidade').value = dados.localidade;
+            document.getElementById('estado').value = dados.uf;
+            document.getElementById('numero').focus();
+          }
+        })
+        .catch(() => console.log('Erro ao buscar CEP'));
+    }
+  }
+
+  function finalizarCadastro(e) {
+    e.preventDefault();
+    alert('Cadastro da Empresa realizado com sucesso! Seja bem-vinda à RH Sem Limites.');
+    window.location.href = 'painel-empresa.html';
+  }
+</script>
+
+</body>
+</html>

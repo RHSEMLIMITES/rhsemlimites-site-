@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Candidato - RH Sem Limites</title>
+  <style>
+    :root {
+      --primary: #0a66c2;          /* Azul corporativo / LinkedIn */
+      --primary-dark: #004182;
+      --accent: #2e7d32;
+      --bg-color: #f3f2ef;        /* Fundo suave estilo LinkedIn */
+      --card-bg: #ffffff;
+      --text-color: #191919;
+      --border-color: #e0e0e0;
+      --focus-outline: #0a66c2;
+      --status-pending: #c62828;
+      --status-done: #2e7d32;
+    }
+
+    /* ALTO CONTRASTE VISUAL */
+    body.high-contrast {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --text-color: #ffeb3b;
+      --primary: #ffeb3b;
+      --primary-dark: #fbc02d;
+      --border-color: #ffeb3b;
+      --accent: #00e676;
+    }
+    body.high-contrast a, body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast label {
+      color: #ffeb3b !important;
+    }
+    body.high-contrast .sub-box, body.high-contrast .vaga-card, body.high-contrast .trilha-item {
+      background-color: #1a1a1a !important;
+      border-color: #ffeb3b !important;
+    }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px 10px;
+      font-size: var(--base-font-size, 1rem);
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    /* BARRA DE ACESSIBILIDADE */
+    .accessibility-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .accessibility-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-acess {
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .btn-acess:hover, .btn-acess:focus {
+      background: #e9ecef;
+      outline: 2px solid var(--focus-outline);
+    }
+
+    /* CABEÇALHO BOAS-VINDAS */
+    .welcome-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .welcome-card h1 {
+      color: var(--primary);
+      margin: 0 0 8px 0;
+      font-size: 1.6rem;
+    }
+
+    .badge-status {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: var(--accent);
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid var(--accent);
+    }
+
+    /* BLOCOS PRINCIPAIS */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .section-card h2 {
+      color: var(--primary-dark);
+      font-size: 1.25rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+    }
+
+    /* BOTÕES E AÇÕES */
+    .btn-action {
+      background-color: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover, .btn-action:focus {
+      background-color: var(--primary-dark);
+      outline: 3px solid var(--focus-outline);
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+    }
+
+    .btn-accent:hover, .btn-accent:focus {
+      background-color: #215c25;
+    }
+
+    /* TRILHAS COM STATUS VISUAL */
+    .trilha-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      background-color: #f8f9fa;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .trilha-info h3 {
+      margin: 0 0 4px 0;
+      font-size: 1rem;
+      color: var(--text-color);
+    }
+
+    .trilha-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .status-tag {
+      font-weight: bold;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      color: white;
+    }
+
+    .status-tag.pendente {
+      background-color: var(--status-pending);
+    }
+
+    .status-tag.concluido {
+      background-color: var(--status-done);
+    }
+
+    /* VAGAS */
+    .vaga-card {
+      border: 1px solid var(--border-color);
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      margin-top: 6px;
+      background: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    /* CARD DE PARCEIRO / MENTOR */
+    .partner-card {
+      background: #fcf4ff;
+      border: 2px dashed #7b1fa2;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .partner-card h3 {
+      margin-top: 0;
+      color: #4a148c;
+    }
+
+    /* REDES SOCIAIS */
+    .social-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .social-card h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    /* RODAPÉ FEEDBACK */
+    .footer-feedback {
+      background-color: #f8f9fa;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .footer-feedback h3 {
+      margin-top: 0;
+      color: var(--primary-dark);
+    }
+
+    .sub-box {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+
+    /* BOTÕES RÁPIDOS DE DOAÇÃO */
+    .btn-donation {
+      background-color: #ffffff;
+      color: #2e7d32;
+      border: 2px solid #2e7d32;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-donation:hover, .btn-donation:focus {
+      background-color: #2e7d32;
+      color: #ffffff;
+      outline: 2px solid var(--focus-outline);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<main class="container">
+
+  <!-- BARRA DE ACESSIBILIDADE VISUAL -->
+  <div class="accessibility-bar">
+    <button class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
+      👁️ Opções de Acessibilidade Visual (Contraste e Fontes)
+    </button>
+    <div id="painelAcessibilidade" class="accessibility-controls hidden" style="width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
+      <button class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
+      <button class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
+      <button class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO COM NOME DINÂMICO -->
+  <header class="welcome-card">
+    <h1 id="nomeUsuarioHeader">Olá, Candidato(a)!</h1>
+    <p>Seja bem-vindo(a) ao seu painel na <strong>RH Sem Limites</strong>.</p>
+    <span class="badge-status">✓ Perfil Ativo & Elegível para Vagas</span>
+  </header>
+
+  <!-- 1. TRILHA DE CAPACITAÇÃO E LIVES -->
+  <section class="section-card">
+    <h2>1. Trilha de Capacitação & Preparação (Método Profissional Anjo)</h2>
+    <p>Conclua as orientações práticas para se preparar para o mercado corporativo:</p>
+
+    <button class="btn-action" style="background-color: #0a66c2; margin-bottom: 16px;" onclick="alternarTrilha()">
+      📘 <span id="txtBtnTrilha">Ver Módulos de Preparação para Entrevista</span>
+    </button>
+
+    <div id="boxModulosTrilha" class="hidden">
+      
+      <div class="trilha-item">
+        <div class="trilha-info">
+          <h3>Módulo 1: O que você precisa saber antes de ir para a entrevista</h3>
+          <p>Orientações práticas sobre pesquisa prévia da empresa, pontualidade e tranquilidade.</p>
+        </div>
+        <div>
+          <span id="tagModulo1" class="status-tag pendente">🔴 Pendente</span>
+          <button class="btn-action" style="padding: 6px 12px; font-size: 0.85rem; margin-left: 8px;" onclick="concluirModulo('tagModulo1')">Assistir / Concluir</button>
+        </div>
+      </div>
+
+      <div class="trilha-item">
+        <div class="trilha-info">
+          <h3>Módulo 2: Como se preparar e se vestir para a entrevista</h3>
+          <p>Vídeo-aula prática sobre apresentação pessoal, vestuário adequado e postura.</p>
+        </div>
+        <div>
+          <span id="tagModulo2" class="status-tag pendente">🔴 Pendente</span>
+          <button class="btn-action" style="padding: 6px 12px; font-size: 0.85rem; margin-left: 8px;" onclick="concluirModulo('tagModulo2')">Assistir / Concluir</button>
+        </div>
+      </div>
+
+      <div class="trilha-item">
+        <div class="trilha-info">
+          <h3>Módulo 3: 3 Passos fundamentais para a entrevista</h3>
+          <p>Dicas de comunicação clara, escuta ativa e como destacar suas competências com naturalidade.</p>
+        </div>
+        <div>
+          <span id="tagModulo3" class="status-tag pendente">🔴 Pendente</span>
+          <button class="btn-action" style="padding: 6px 12px; font-size: 0.85rem; margin-left: 8px;" onclick="concluirModulo('tagModulo3')">Assistir / Concluir</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="trilha-item" style="margin-top: 10px;">
+      <div class="trilha-info">
+        <h3>Módulo 4: Lives, Transmissões Ao Vivo & Treinamentos</h3>
+        <p>Acesse as lives de mentoria e treinamentos em tempo real.</p>
+      </div>
+      <div>
+        <button id="btnYoutubeLive" class="btn-action" style="padding: 6px 12px; font-size: 0.85rem; background-color: #cc0000;" onclick="acessarYoutube()">
+          ▶️ Acessar Canal de Lives
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. CENTRAL DE MENTORIAS -->
+  <section class="section-card">
+    <h2>2. Solicitante de Mentoria & Apoio Especializado</h2>
+    <p>Precisa de auxílio para revisar seu Currículo, estruturar seu LinkedIn, preparar sua Transição de Carreira ou mudar de cidade?</p>
+    
+    <form onsubmit="solicitarMentoria(event)">
+      <label for="necessidadeMentoria"><strong>Descreva o que você precisa no momento:</strong></label>
+      <textarea id="necessidadeMentoria" rows="3" placeholder="Ex: Preciso de ajuda para reestruturar meu LinkedIn e me preparar para entrevistas na área administrativa..." required></textarea>
+      
+      <button type="submit" class="btn-action" style="margin-top: 12px;">
+        🤝 Enviar Solicitação para a Rede de Mentores
+      </button>
+    </form>
+  </section>
+
+  <!-- 3. MURAL DE VAGAS DICA E DINÂMICO -->
+  <section class="section-card">
+    <h2>3. Oportunidades Alinhadas ao seu Perfil</h2>
+    <p>As vagas abaixo são atualizadas em tempo real conforme a publicação das empresas parceiras:</p>
+    
+    <div id="muralVagasCandidato">
+      <p id="msgSemVagasCandidato" style="font-style: italic; color: #777; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px dashed #ccc;">
+        Nenhuma nova vaga publicada no momento. Fique atento, novas oportunidades surgirão aqui assim que cadastradas pelas empresas parceiras!
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. ESPAÇO PARA MENTOR / PARCEIRO INDEPENDENTE -->
+  <div class="partner-card">
+    <h3>🤝 Você é Profissional de RH, Psicólogo ou Consultor?</h3>
+    <p>Deseja atuar como Mentor, Consultor ou prestar serviços de apoio profissional na plataforma RH Sem Limites?</p>
+    
+    <div style="margin-top: 10px;">
+      <label style="font-weight: bold; cursor: pointer;">
+        <input type="checkbox" id="checkMentor" onchange="alternarBoxMentor(this.checked)" style="width: 18px; height: 18px;">
+        Sim, tenho interesse em ser um Mentor / Parceiro Anjo
+      </label>
+    </div>
+
+    <form id="boxFormMentor" class="hidden" onsubmit="enviarCadastroMentor(event)" style="margin-top: 14px;">
+      <label for="portfolioMentor"><strong>Descreva suas principais competências, formação e portfólio de serviços:</strong></label>
+      <textarea id="portfolioMentor" rows="3" placeholder="Ex: Sou formado em Psicologia com pós em Gestão de Pessoas. Tenho experiência com mentoria de currículos e recolocação profissional..." required></textarea>
+      
+      <button type="submit" class="btn-action" style="background-color: #7b1fa2; margin-top: 10px;">
+        ✨ Enviar Competências para Avaliação da Equipe
+      </button>
+    </form>
+  </div>
+
+  <!-- 5. SEU CURRÍCULO PROFISSIONAL -->
+  <section class="section-card">
+    <h2>5. Seu Currículo Profissional</h2>
+    <p>Seus dados cadastrais foram formatados e estruturados com acessibilidade para envio às empresas parceiras.</p>
+    <button class="btn-action btn-accent" onclick="gerarCurriculoPDF()">
+      📄 Visualizar / Baixar Currículo em PDF
+    </button>
+  </section>
+
+  <!-- 6. SANFONA: FAÇA UMA DOAÇÃO & APOIE NOSSA TECNOLOGIA -->
+  <section class="section-card" style="border-color: #2e7d32; background-color: #f4fbf5;">
+    <h2 style="color: #2e7d32; border-bottom-color: #2e7d32;">6. Apoie a RH Sem Limites (Faça uma Doação)</h2>
+    <p>Você acredita na inclusão humanizada e deseja nos ajudar a manter essa tecnologia acessível e gratuita para mais pessoas? Sua contribuição, de qualquer valor, fortalece nossa comunidade!</p>
+    
+    <button class="btn-action btn-accent" onclick="alternarBloco('boxDoacoesPix')">
+      ❤️ Você acredita na transformação e deseja nos apoiar? Faça sua doação
+    </button>
+
+    <!-- CONTEÚDO DA SANFONA -->
+    <div id="boxDoacoesPix" class="sub-box hidden" style="border-color: #2e7d32; background: #ffffff;">
+      <h3 style="color: #2e7d32; margin-top: 0;">Escolha como deseja contribuir:</h3>
+      <p style="margin-bottom: 12px; font-size: 0.95rem;">Clique no valor desejado para copiar a chave Pix ou utilize o botão abaixo para copiar a chave oficial:</p>
+      
+      <!-- VALORES PRÉ-DEFINIDOS E OUTRO VALOR -->
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+        <button class="btn-donation" onclick="copiarPixComValor('2,00')">💚 Doe R$ 2,00</button>
+        <button class="btn-donation" onclick="copiarPixComValor('5,00')">💚 Doe R$ 5,00</button>
+        <button class="btn-donation" onclick="copiarPixComValor('10,00')">💚 Doe R$ 10,00</button>
+        <button class="btn-donation" style="border-color: #0a66c2; color: #0a66c2;" onclick="copiarPixComValor('Outro Valor')">✨ Doe Outros Valores</button>
+      </div>
+
+      <!-- CHAVE PIX DIRETA COM BOTÃO DE COPIAR -->
+      <div style="background: #e8f5e9; border: 1px dashed #2e7d32; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+        <p style="margin: 0 0 6px 0; font-size: 0.9rem; color: #1b5e20;"><strong>Chave Pix Oficial (E-mail):</strong></p>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <code style="font-size: 1.05rem; font-weight: bold; background: #fff; padding: 6px 10px; border-radius: 4px; border: 1px solid #c8e6c9; color: #1b5e20;">rhsemlimites2024@gmail.com</code>
+          <button class="btn-action btn-small btn-accent" onclick="copiarChavePixDireta()">📋 Copiar Chave Pix</button>
+        </div>
+      </div>
+
+      <!-- APOIO CORPORATIVO / INVESTIDOR ANJO -->
+      <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
+      <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>É uma empresa ou deseja ser um Investidor Anjo corporativo?</strong></p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="https://wa.me/5549999208261?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20Investidor%20Anjo%20da%20RH%20Sem%20Limites" target="_blank" class="btn-action btn-small" style="background-color: #25d366;">
+          💬 Falar no WhatsApp da Consultoria
+        </a>
+        <a href="mailto:rhsemlimites2024@gmail.com?subject=Proposta%20de%20Investimento%20Anjo" class="btn-action btn-small" style="background-color: #004182;">
+          ✉️ Enviar E-mail Institucional
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. REDES SOCIAIS & COMUNIDADE -->
+  <section class="social-card">
+    <h3>🌐 Conecte-se com a RH Sem Limites</h3>
+    <p>Acompanhe orientações de carreira, novidades e depoimentos em nossos canais oficiais:</p>
+    <div class="social-buttons">
+      <a href="https://www.instagram.com/rhsemlimites_?psln=NmI2cDFpMWwzaDVv" target="_blank" class="btn-action" style="background-color: #e1306c;">
+        📸 Instagram @rhsemlimites_
+      </a>
+      <button class="btn-action" style="background-color: #0077b5;" onclick="acessarLinkedin()">
+        💼 LinkedIn
+      </button>
+    </div>
+  </section>
+
+  <!-- 8. ESPAÇO DE FEEDBACK HUMANIZADO -->
+  <footer class="footer-feedback">
+    <h3>💬 Sua voz importa para nós!</h3>
+    <p>O que você está achando da sua experiência na plataforma RH Sem Limites? Deixe sua sugestão, elogio ou mensagem para a nossa equipe:</p>
+    <form onsubmit="enviarFeedback(event)">
+      <textarea id="textoFeedback" rows="2" placeholder="Digite aqui sua mensagem com total liberdade..." required></textarea>
+      <button type="submit" class="btn-action" style="margin-top: 10px; background-color: var(--primary-dark);">Enviar Depoimento / Feedback</button>
+    </form>
+  </footer>
+
+  <!-- BOTÃO DIRETO DE EXCLUIR CONTA -->
+  <div style="text-align: center; margin: 30px 0 10px 0;">
+    <button class="btn-action" style="background-color: #c62828;" onclick="excluirContaCandidato()">
+      🗑️ Excluir Conta
+    </button>
+  </div>
+
+</main>
+
+<script>
+  const configADM = {
+    urlLinkedin: "", 
+    urlYoutube: ""   
+  };
+
+  const chavePixOficial = "rhsemlimites2024@gmail.com";
+
+  function alternarAltoContraste() {
+    document.body.classList.toggle('high-contrast');
+  }
+
+  let currentFontSize = 1;
+  function alterarFonte(acao) {
+    if (acao === 'aumentar' && currentFontSize < 1.3) currentFontSize += 0.1;
+    else if (acao === 'diminuir' && currentFontSize > 0.9) currentFontSize -= 0.1;
+    document.documentElement.style.fontSize = currentFontSize + 'rem';
+  }
+
+  function alternarBloco(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+  }
+
+  function alternarTrilha() {
+    const box = document.getElementById('boxModulosTrilha');
+    const txt = document.getElementById('txtBtnTrilha');
+    if (box.classList.contains('hidden')) {
+      box.classList.remove('hidden');
+      txt.innerText = 'Ocultar Módulos de Preparação';
+    } else {
+      box.classList.add('hidden');
+      txt.innerText = 'Ver Módulos de Preparação para Entrevista';
+    }
+  }
+
+  function concluirModulo(idTag) {
+    const el = document.getElementById(idTag);
+    el.innerText = '🟢 Concluído';
+    el.className = 'status-tag concluido';
+    alert('Parabéns! Módulo concluído com sucesso.');
+  }
+
+  function alternarBoxMentor(marcado) {
+    const box = document.getElementById('boxFormMentor');
+    if (marcado) {
+      box.classList.remove('hidden');
+    } else {
+      box.classList.add('hidden');
+    }
+  }
+
+  function acessarLinkedin() {
+    if (configADM.urlLinkedin && configADM.urlLinkedin !== "") {
+      window.open(configADM.urlLinkedin, '_blank');
+    } else {
+      alert('Nossa página corporativa no LinkedIn está sendo estruturada! Em breve novidades por lá.');
+    }
+  }
+
+  function acessarYoutube() {
+    if (configADM.urlYoutube && configADM.urlYoutube !== "") {
+      window.open(configADM.urlYoutube, '_blank');
+    } else {
+      alert('Em breve os links diretos das lives estarão disponíveis aqui. Acompanhe também pelo nosso Instagram!');
+    }
+  }
+
+  function enviarCadastroMentor(e) {
+    e.preventDefault();
+    alert('Obrigado! Seus dados e portfólio foram recebidos com sucesso. A equipe da RH Sem Limites avaliará suas competências para credenciamento.');
+    document.getElementById('portfolioMentor').value = '';
+    document.getElementById('checkMentor').checked = false;
+    document.getElementById('boxFormMentor').classList.add('hidden');
+  }
+
+  function gerarCurriculoPDF() {
+    alert('Gerando seu Currículo Profissional formatado em PDF... O download iniciará em instantes.');
+  }
+
+  function solicitarMentoria(e) {
+    e.preventDefault();
+    alert('Sua solicitação foi recebida! Em breve um mentor da rede RH Sem Limites entrará em contato com você.');
+    document.getElementById('necessidadeMentoria').value = '';
+  }
+
+  function candidatarVaga(nomeVaga) {
+    alert(`Candidatura enviada com sucesso para a vaga de ${nomeVaga}! A empresa parceira receberá seu perfil no painel corporativo.`);
+  }
+
+  function enviarFeedback(e) {
+    e.preventDefault();
+    alert('Muito obrigado pelo seu feedback! Ele é fundamental para continuarmos evoluindo a RH Sem Limites.');
+    document.getElementById('textoFeedback').value = '';
+  }
+
+  function excluirContaCandidato() {
+    if (confirm('Deseja realmente excluir sua conta? Esta ação é irreversível.')) {
+      alert('Sua conta foi excluída com sucesso.');
+      window.location.href = 'index.html';
+    }
+  }
+
+  /* FUNÇÕES DE DOAÇÃO PIX */
+  function copiarChavePixDireta() {
+    navigator.clipboard.writeText(chavePixOficial);
+    alert('Chave Pix (rhsemlimites2024@gmail.com) copiada com sucesso! Cole no aplicativo do seu banco.');
+  }
+
+  function copiarPixComValor(valor) {
+    navigator.clipboard.writeText(chavePixOficial);
+    if (valor === 'Outro Valor') {
+      alert('Chave Pix (rhsemlimites2024@gmail.com) copiada! Digite o valor que desejar no aplicativo do seu banco. Muito obrigado pelo seu apoio!');
+    } else {
+      alert(`Chave Pix (rhsemlimites2024@gmail.com) copiada! Informe o valor de R$ ${valor} no aplicativo do seu banco. A RH Sem Limites agradece imensamente a sua contribuição!`);
+    }
+  }
+</script>
+
+</body>
+</html>

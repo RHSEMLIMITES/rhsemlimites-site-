@@ -175,12 +175,12 @@
 
   <!-- BOTÕES PRINCIPAIS -->
   <div class="btn-group">
-    <button type="button" class="btn" onclick="mostrarLogin()">Fazer Login</button>
-    <button type="button" class="btn btn-secundario" onclick="mostrarPrimeiroAcesso()">Primeiro Acesso / Cadastre-se</button>
+    <button type="button" id="btnLogin" class="btn" aria-expanded="false" onclick="mostrarLogin()">Fazer Login</button>
+    <button type="button" id="btnPrimeiroAcesso" class="btn btn-secundario" aria-expanded="false" onclick="mostrarPrimeiroAcesso()">Primeiro Acesso / Cadastre-se</button>
   </div>
 
   <!-- PAINEL DE LOGIN -->
-  <div id="boxLogin" class="box-opcao hidden">
+  <div id="boxLogin" class="box-opcao hidden" role="region" aria-label="Formulário de Login">
     <h3>Acesse sua conta</h3>
     <div class="radios-tipo">
       <label><input type="radio" name="tipoLogin" value="candidato" checked onchange="mudarFormLogin('candidato')"> Candidato</label>
@@ -203,10 +203,10 @@
   </div>
 
   <!-- PAINEL DE PRIMEIRO ACESSO -->
-  <div id="boxPrimeiroAcesso" class="box-opcao hidden">
+  <div id="boxPrimeiroAcesso" class="box-opcao hidden" role="region" aria-label="Opções de Cadastro">
     <h3>Escolha como deseja se cadastrar:</h3>
     <div class="btn-group" style="margin-top: 14px;">
-      <a href="candidato.html" class="btn">Sou Candidato (Pessoa Física)</a>
+      <a href="candidato.html" id="linkCadCandidato" class="btn">Sou Candidato (Pessoa Física)</a>
       <a href="empresa.html" class="btn btn-secundario">Sou Empresa / Contratante (CNPJ)</a>
     </div>
   </div>
@@ -217,8 +217,8 @@
   <p style="margin-top: 8px; font-size: 0.85rem;"><button type="button" class="link-sub" style="font-size: 0.85rem; color: #666;" onclick="abrirAdmin()">🔒 Área Restrita / ADM</button></p>
 </footer>
 
-<!-- MODAL FALE CONOSCO (Integrado com FormSubmit para rhsemlimites2024@gmail.com) -->
-<div id="modalFaleConosco" class="box-opcao hidden" style="position: fixed; top: 10%; left: 5%; right: 5%; max-width: 450px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+<!-- MODAL FALE CONOSCO -->
+<div id="modalFaleConosco" class="box-opcao hidden" role="dialog" aria-modal="true" aria-label="Fale Conosco" style="position: fixed; top: 10%; left: 5%; right: 5%; max-width: 450px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
   <h3>Fale Conosco - RH Sem Limites</h3>
   <form action="https://formsubmit.co/rhsemlimites2024@gmail.com" method="POST">
     <input type="hidden" name="_subject" value="Novo Contato pelo Site - RH Sem Limites">
@@ -246,7 +246,7 @@
 </div>
 
 <!-- MODAL ADMIN / ADM -->
-<div id="modalAdmin" class="box-opcao hidden" style="position: fixed; top: 15%; left: 5%; right: 5%; max-width: 400px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+<div id="modalAdmin" class="box-opcao hidden" role="dialog" aria-modal="true" aria-label="Acesso Restrito Administrador" style="position: fixed; top: 15%; left: 5%; right: 5%; max-width: 400px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
   <h3>Acesso Restrito - Administrador</h3>
   <form onsubmit="acessarPainelAdmin(event)">
     <div class="form-group">
@@ -262,12 +262,17 @@
   function mostrarLogin() {
     document.getElementById('boxLogin').classList.remove('hidden');
     document.getElementById('boxPrimeiroAcesso').classList.add('hidden');
+    document.getElementById('btnLogin').setAttribute('aria-expanded', 'true');
+    document.getElementById('btnPrimeiroAcesso').setAttribute('aria-expanded', 'false');
     document.getElementById('campoUsuario').focus();
   }
 
   function mostrarPrimeiroAcesso() {
     document.getElementById('boxPrimeiroAcesso').classList.remove('hidden');
     document.getElementById('boxLogin').classList.add('hidden');
+    document.getElementById('btnPrimeiroAcesso').setAttribute('aria-expanded', 'true');
+    document.getElementById('btnLogin').setAttribute('aria-expanded', 'false');
+    document.getElementById('linkCadCandidato').focus();
   }
 
   function mudarFormLogin(tipo) {
@@ -321,7 +326,7 @@
     } else {
       alert('Senha incorreta. Tente novamente.');
       document.getElementById('senhaAdmin').value = '';
-      document.getElementById('senhaAdmin'].focus();
+      document.getElementById('senhaAdmin').focus();
     }
   }
 </script>

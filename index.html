@@ -9,7 +9,7 @@
       --primary: #1a5f7a;
       --primary-dark: #134255;
       --accent: #2e7d32;
-      --bg-color: #f7f5f0; /* Fundo Creme/Marfim Acolhedor */
+      --bg-color: #f7f5f0;
       --card-bg: #ffffff;
       --text-color: #2c3e50;
       --border-color: #e2ddd5;
@@ -48,8 +48,8 @@
       margin-bottom: 15px;
     }
 
-    .logo-svg {
-      max-width: 220px;
+    .logo-img {
+      max-width: 200px;
       width: 100%;
       height: auto;
     }
@@ -84,6 +84,7 @@
       cursor: pointer;
       transition: background 0.3s;
       text-decoration: none;
+      text-align: center;
     }
 
     .btn-secundario {
@@ -165,31 +166,9 @@
 <body>
 
 <main class="container">
-  <!-- LOGOTIPO INTEGRADO VIA VETOR SVG -->
+  <!-- LOGOTIPO OFICIAL (logo.jpg) -->
   <div class="logo-container">
-    <svg class="logo-svg" viewBox="0 0 500 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logotipo da RH Sem Limites com a árvore da diversidade e seus frutos coloridos">
-      <!-- Árvore e Galhos Espiralados -->
-      <path d="M 250,340 C 230,300 220,260 190,220 C 160,180 140,140 180,100 C 210,70 250,110 210,140 C 180,165 210,210 240,240 C 270,200 300,160 280,120 C 260,80 300,60 330,90 C 360,120 330,160 300,180 C 270,200 280,270 250,340 Z" fill="#4a2c11" />
-      <path d="M 230,340 L 270,340 L 290,370 L 210,370 Z" fill="#4a2c11" />
-
-      <!-- Frutos Coloridos da Diversidade -->
-      <path d="M 130,220 Q 110,230 140,250 Q 155,230 130,220 Z" fill="#fbc02d" />
-      <path d="M 125,215 Q 100,235 135,260 Q 150,235 125,215 Z" fill="#fbc02d" />
-      <circle cx="190" cy="180" r="18" fill="#2e7d32" />
-      <circle cx="170" cy="90" r="12" fill="#f57c00" />
-      <circle cx="170" cy="140" r="7" fill="#d32f2f" />
-      <ellipse cx="215" cy="135" rx="11" ry="16" fill="#8bc34a" />
-      <circle cx="295" cy="165" r="9" fill="#d32f2f" />
-      <circle cx="300" cy="160" r="14" fill="#d32f2f" />
-      <ellipse cx="275" cy="215" rx="10" ry="14" fill="#7cb342" />
-      <circle cx="305" cy="205" r="7" fill="#7b1fa2" />
-      <circle cx="317" cy="205" r="7" fill="#7b1fa2" />
-      <circle cx="311" cy="215" r="7" fill="#7b1fa2" />
-      <ellipse cx="345" cy="240" rx="10" ry="13" fill="#fbc02d" />
-
-      <!-- Texto RH SEM LIMITES -->
-      <text x="250" y="420" font-family="Arial, sans-serif" font-weight="900" font-size="38" fill="#2e7d32" text-anchor="middle" letter-spacing="1">RH SEM LIMITES</text>
-    </svg>
+    <img src="logo.jpg" alt="Logotipo da RH Sem Limites com a árvore da diversidade e seus frutos coloridos" class="logo-img">
   </div>
 
   <h1>BEM-VINDO À RH SEM LIMITES</h1>
@@ -238,32 +217,32 @@
   <p style="margin-top: 8px; font-size: 0.85rem;"><button type="button" class="link-sub" style="font-size: 0.85rem; color: #666;" onclick="abrirAdmin()">🔒 Área Restrita / ADM</button></p>
 </footer>
 
-<!-- MODAL FALE CONOSCO -->
+<!-- MODAL FALE CONOSCO (Integrado com FormSubmit para rhsemlimites2024@gmail.com) -->
 <div id="modalFaleConosco" class="box-opcao hidden" style="position: fixed; top: 10%; left: 5%; right: 5%; max-width: 450px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
   <h3>Fale Conosco - RH Sem Limites</h3>
-  <form onsubmit="enviarContato(event)">
+  <form action="https://formsubmit.co/rhsemlimites2024@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="Novo Contato pelo Site - RH Sem Limites">
+    <input type="hidden" name="_captcha" value="false">
+    
     <div class="form-group">
       <label for="nomeContato">Nome *</label>
-      <input type="text" id="nomeContato" required>
+      <input type="text" id="nomeContato" name="name" required>
     </div>
     <div class="form-group">
       <label for="emailContato">E-mail *</label>
-      <input type="email" id="emailContato" required>
+      <input type="email" id="emailContato" name="email" required>
     </div>
     <div class="form-group">
       <label for="whatsContato">WhatsApp *</label>
-      <input type="tel" id="whatsContato" required>
+      <input type="tel" id="whatsContato" name="whatsapp" required>
     </div>
     <div class="form-group">
       <label for="msgContato">Mensagem *</label>
-      <input type="text" id="msgContato" required>
+      <input type="text" id="msgContato" name="message" required>
     </div>
     <button type="submit" class="btn">Enviar Mensagem</button>
     <button type="button" class="btn btn-secundario" style="margin-top: 8px;" onclick="fecharFaleConosco()">Fechar</button>
   </form>
-  <div id="msgSucessoContato" class="hidden" style="color: var(--accent); font-weight: bold; margin-top: 10px;">
-    ✅ Mensagem enviada com sucesso! Em breve retornaremos o contato via e-mail ou WhatsApp.
-  </div>
 </div>
 
 <!-- MODAL ADMIN / ADM -->
@@ -272,7 +251,7 @@
   <form onsubmit="acessarPainelAdmin(event)">
     <div class="form-group">
       <label for="senhaAdmin">Senha de Acesso ADM *</label>
-      <input type="password" id="senhaAdmin" placeholder="Digite a senha mestra" required>
+      <input type="password" id="senhaAdmin" placeholder="Digite a senha" required>
     </div>
     <button type="submit" class="btn" style="background-color: var(--primary-dark);">Entrar no ADM</button>
     <button type="button" class="btn btn-secundario" style="margin-top: 8px;" onclick="fecharAdmin()">Cancelar</button>
@@ -305,7 +284,13 @@
 
   function acaoLogin(e) {
     e.preventDefault();
+    const tipo = document.querySelector('input[name="tipoLogin"]:checked').value;
     alert('Login efetuado com sucesso!');
+    if (tipo === 'empresa') {
+      window.location.href = 'painel-empresa.html';
+    } else {
+      window.location.href = 'painel-candidato.html';
+    }
   }
 
   function abrirFaleConosco() {
@@ -315,15 +300,6 @@
 
   function fecharFaleConosco() {
     document.getElementById('modalFaleConosco').classList.add('hidden');
-  }
-
-  function enviarContato(e) {
-    e.preventDefault();
-    document.getElementById('msgSucessoContato').classList.remove('hidden');
-    setTimeout(() => {
-      fecharFaleConosco();
-      document.getElementById('msgSucessoContato').classList.add('hidden');
-    }, 3000);
   }
 
   function abrirAdmin() {
@@ -339,14 +315,13 @@
   function acessarPainelAdmin(e) {
     e.preventDefault();
     const senha = document.getElementById('senhaAdmin').value;
-    if (senha === 'admin123' || senha === 'rhsemlimites') {
+    if (senha === 'admin123' || senha === 'rhsemlimites' || senha === '123456') {
       alert('Acesso autorizado! Bem-vindo ao painel do Administrador.');
-      fecharAdmin();
-      // Redirecionamento futuro para a página de gestão do ADM se desejar
+      window.location.href = 'painel-administrador.html';
     } else {
       alert('Senha incorreta. Tente novamente.');
       document.getElementById('senhaAdmin').value = '';
-      document.getElementById('senhaAdmin').focus();
+      document.getElementById('senhaAdmin'].focus();
     }
   }
 </script>

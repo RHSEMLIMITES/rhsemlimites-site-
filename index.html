@@ -9,6 +9,7 @@
       --primary: #1a5f7a;
       --primary-dark: #134255;
       --accent: #2e7d32;
+      --warning-orange: #e67e22; /* Laranja planejado para o Primeiro Acesso */
       --bg-color: #f7f5f0;
       --card-bg: #ffffff;
       --text-color: #2c3e50;
@@ -54,13 +55,17 @@
       height: auto;
     }
 
+    /* Título limpo, sem caixa/retângulo verde */
     h1 {
       color: var(--accent);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background: none;
+      border: none;
+      padding: 0;
     }
 
     .btn-group {
@@ -87,16 +92,31 @@
       text-align: center;
     }
 
-    .btn-secundario {
-      background-color: transparent;
+    /* Botão de Primeiro Acesso com detalhe laranja e ícone de destaque */
+    .btn-primeiro-acesso {
+      background-color: #ffffff;
       color: var(--primary-dark);
-      border: 2px solid var(--primary);
+      border: 2px solid var(--warning-orange);
+      position: relative;
+    }
+
+    .btn-primeiro-acesso::before {
+      content: "●";
+      color: var(--warning-orange);
+      font-size: 1.2rem;
+      margin-right: 8px;
     }
 
     .btn:hover, .btn:focus {
       background-color: var(--primary-dark);
       color: white;
       outline: 3px solid var(--focus-outline);
+    }
+
+    .btn-primeiro-acesso:hover, .btn-primeiro-acesso:focus {
+      background-color: var(--warning-orange);
+      color: white;
+      border-color: var(--warning-orange);
     }
 
     .box-opcao {
@@ -166,7 +186,7 @@
 <body>
 
 <main class="container">
-  <!-- LOGOTIPO OFICIAL (logo.jpg) -->
+  <!-- LOGOTIPO OFICIAL -->
   <div class="logo-container">
     <img src="logo.jpg" alt="Logotipo da RH Sem Limites com a árvore da diversidade e seus frutos coloridos" class="logo-img">
   </div>
@@ -176,7 +196,7 @@
   <!-- BOTÕES PRINCIPAIS -->
   <div class="btn-group">
     <button type="button" id="btnLogin" class="btn" aria-expanded="false" onclick="mostrarLogin()">Fazer Login</button>
-    <button type="button" id="btnPrimeiroAcesso" class="btn btn-secundario" aria-expanded="false" onclick="mostrarPrimeiroAcesso()">Primeiro Acesso / Cadastre-se</button>
+    <button type="button" id="btnPrimeiroAcesso" class="btn btn-primeiro-acesso" aria-expanded="false" onclick="mostrarPrimeiroAcesso()">Primeiro Acesso / Cadastre-se</button>
   </div>
 
   <!-- PAINEL DE LOGIN -->
@@ -207,7 +227,7 @@
     <h3>Escolha como deseja se cadastrar:</h3>
     <div class="btn-group" style="margin-top: 14px;">
       <a href="candidato.html" id="linkCadCandidato" class="btn">Sou Candidato (Pessoa Física)</a>
-      <a href="empresa.html" class="btn btn-secundario">Sou Empresa / Contratante (CNPJ)</a>
+      <a href="empresa.html" class="btn btn-primeiro-acesso" style="text-align: center;">Sou Empresa / Contratante (CNPJ)</a>
     </div>
   </div>
 </main>
@@ -241,7 +261,7 @@
       <input type="text" id="msgContato" name="message" required>
     </div>
     <button type="submit" class="btn">Enviar Mensagem</button>
-    <button type="button" class="btn btn-secundario" style="margin-top: 8px;" onclick="fecharFaleConosco()">Fechar</button>
+    <button type="button" class="btn btn-primeiro-acesso" style="margin-top: 8px;" onclick="fecharFaleConosco()">Fechar</button>
   </form>
 </div>
 
@@ -254,7 +274,7 @@
       <input type="password" id="senhaAdmin" placeholder="Digite a senha" required>
     </div>
     <button type="submit" class="btn" style="background-color: var(--primary-dark);">Entrar no ADM</button>
-    <button type="button" class="btn btn-secundario" style="margin-top: 8px;" onclick="fecharAdmin()">Cancelar</button>
+    <button type="button" class="btn btn-primeiro-acesso" style="margin-top: 8px;" onclick="fecharAdmin()">Cancelar</button>
   </form>
 </div>
 

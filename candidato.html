@@ -29,11 +29,16 @@
     body.high-contrast a, body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast label, body.high-contrast legend {
       color: #ffeb3b !important;
     }
-    body.high-contrast fieldset, body.high-contrast .container {
+    body.high-contrast fieldset, body.high-contrast .container, body.high-contrast .sanfona-box {
       background-color: #121212 !important;
       border-color: #ffeb3b !important;
     }
     body.high-contrast input, body.high-contrast select, body.high-contrast textarea {
+      background-color: #1a1a1a !important;
+      color: #ffeb3b !important;
+      border-color: #ffeb3b !important;
+    }
+    body.high-contrast .btn-sanfona {
       background-color: #1a1a1a !important;
       color: #ffeb3b !important;
       border-color: #ffeb3b !important;
@@ -147,6 +152,43 @@
       outline-offset: 2px;
     }
 
+    /* ESTILO DA SANFONA DE IDIOMAS */
+    .sanfona-box {
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background-color: #f8fbff;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .btn-sanfona {
+      width: 100%;
+      background-color: #eef5fc;
+      color: var(--primary-dark);
+      border: none;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .btn-sanfona:hover, .btn-sanfona:focus {
+      background-color: #dcebfa;
+      outline: 3px solid var(--focus-outline);
+      outline-offset: -3px;
+    }
+
+    .sanfona-conteudo {
+      padding: 16px;
+      border-top: 1px solid #d0e2f5;
+    }
+
     .tags-container {
       display: flex;
       flex-wrap: wrap;
@@ -184,7 +226,7 @@
       background: white;
       border: 2px solid var(--primary);
       border-radius: 6px;
-      max-height: 200px;
+      max-height: 240px;
       overflow-y: auto;
       z-index: 100;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -202,6 +244,48 @@
       background-color: #eef6f9;
       color: var(--primary-dark);
       outline: none;
+    }
+
+    .sugestao-correcao {
+      background-color: #e3f2fd;
+      color: #0d47a1;
+      font-weight: bold;
+    }
+
+    .sugestao-nova {
+      padding: 12px 14px;
+      background-color: #f0f7f1;
+      color: #1b5e20;
+      font-weight: bold;
+      border-top: 1px dashed #2e7d32;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sugestao-nova button {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .sugestao-nova button.btn-cancelar {
+      background-color: #757575;
+    }
+
+    .alerta-improprio {
+      padding: 12px 14px;
+      background-color: #ffebee;
+      color: #b71c1c;
+      font-weight: bold;
+      font-size: 0.9rem;
     }
 
     .grid-checkboxes {
@@ -267,13 +351,13 @@
 
   <!-- BARRA DE ACESSIBILIDADE VISUAL -->
   <div class="accessibility-bar">
-    <button class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
+    <button type="button" class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
       👁️ Opções de Acessibilidade Visual (Contraste e Fontes)
     </button>
     <div id="painelAcessibilidade" class="accessibility-controls hidden" style="width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
-      <button class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
-      <button class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
-      <button class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
+      <button type="button" class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
+      <button type="button" class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
+      <button type="button" class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
     </div>
   </div>
 
@@ -302,12 +386,12 @@
 
       <div class="form-group">
         <label for="cpf">CPF *</label>
-        <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="000.000.000-00" required aria-required="true" oninput="mascaraCPF(this)">
+        <input type="text" id="cpf" name="cpf" maxlength="14" required aria-required="true" oninput="mascaraCPF(this)">
       </div>
 
       <div class="form-group">
         <label for="telefone">Telefone / WhatsApp *</label>
-        <input type="tel" id="telefone" name="telefone" maxlength="15" placeholder="(049) 99900-0000" required aria-required="true" oninput="mascaraTelefone(this)">
+        <input type="tel" id="telefone" name="telefone" maxlength="15" required aria-required="true" oninput="mascaraTelefone(this)">
       </div>
 
       <!-- PERGUNTA DIRETA: POSSUI DEFICIÊNCIA? SIM / NÃO -->
@@ -319,19 +403,19 @@
         </div>
       </div>
 
-      <!-- SELEÇÃO DO TIPO DE DEFICIÊNCIA (INICIALMENTE OCULTO) -->
+      <!-- SELEÇÃO DO TIPO DE DEFICIÊNCIA (MAIS COMUNS NO TOPO) -->
       <div class="form-group hidden" id="boxTipoPcd">
         <label for="tipoPcd">Selecione o Tipo de Deficiência / Condição *</label>
         <select id="tipoPcd" name="tipoPcd">
           <option value="">Selecione...</option>
-          <option value="Visual">Deficiência Visual (Cegueira ou Baixa Visão)</option>
           <option value="Auditiva">Deficiência Auditiva / Surdez</option>
           <option value="Fisica">Deficiência Física / Motora</option>
-          <option value="Intelectual">Deficiência Intelectual / Cognitiva</option>
+          <option value="Visual">Deficiência Visual (Cegueira ou Baixa Visão)</option>
           <option value="TEA">TEA (Transtorno do Espectro Autista)</option>
+          <option value="SindromeDown">Síndrome de Down</option>
           <option value="Nanismo">Nanismo</option>
-          <option value="Multipla">Deficiência Múltipla</option>
           <option value="Reabilitado">Reabilitado do INSS</option>
+          <option value="Multipla">Deficiência Múltipla</option>
         </select>
       </div>
     </fieldset>
@@ -378,7 +462,7 @@
 
       <div class="form-group" style="margin-top: 16px;">
         <label for="outrosRecursos">Outros Recursos ou Adaptações Necessárias (Opcional):</label>
-        <textarea id="outrosRecursos" name="outrosRecursos" rows="2" placeholder="Descreva qualquer outra adaptação específica."></textarea>
+        <textarea id="outrosRecursos" name="outrosRecursos" rows="2"></textarea>
       </div>
     </fieldset>
 
@@ -388,32 +472,32 @@
 
       <div class="form-group">
         <label for="cep">CEP (Digite os 8 números) *</label>
-        <input type="text" id="cep" name="cep" maxlength="9" placeholder="00000-000" required aria-required="true" onkeyup="verificarCEP(this.value)" onblur="buscarCEP(this.value)">
+        <input type="text" id="cep" name="cep" maxlength="9" required aria-required="true" onkeyup="verificarCEP(this.value)" onblur="buscarCEP(this.value)">
       </div>
 
       <div class="form-group">
         <label for="rua">Rua / Avenida *</label>
-        <input type="text" id="rua" name="rua" required aria-required="true" value="Rua Jordão Oliveira da Cruz">
+        <input type="text" id="rua" name="rua" required aria-required="true">
       </div>
 
       <div class="form-group">
         <label for="numero">Número / Complemento *</label>
-        <input type="text" id="numero" name="numero" required aria-required="true" value="152">
+        <input type="text" id="numero" name="numero" required aria-required="true">
       </div>
 
       <div class="form-group">
         <label for="bairro">Bairro *</label>
-        <input type="text" id="bairro" name="bairro" required aria-required="true" value="Efapi">
+        <input type="text" id="bairro" name="bairro" required aria-required="true">
       </div>
 
       <div class="form-group">
         <label for="cidade">Cidade *</label>
-        <input type="text" id="cidade" name="cidade" required aria-required="true" value="Chapecó">
+        <input type="text" id="cidade" name="cidade" required aria-required="true">
       </div>
 
       <div class="form-group">
         <label for="estado">Estado (UF) *</label>
-        <input type="text" id="estado" name="estado" maxlength="2" required aria-required="true" value="SC">
+        <input type="text" id="estado" name="estado" maxlength="2" required aria-required="true">
       </div>
     </fieldset>
 
@@ -421,10 +505,10 @@
     <fieldset>
       <legend>4. Perfil Profissional & Histórico</legend>
 
-      <!-- BUSCA DINÂMICA DE ATÉ 5 PROFISSÕES -->
+      <!-- BUSCA DINÂMICA DE ATÉ 5 PROFISSÕES COM CORREÇÃO ORTOGRÁFICA, INCLUSÃO GLOBAL E FILTRO -->
       <div class="form-group">
-        <label for="cargoInput">Cargos de Interesse (Selecione até 5 profissões) *</label>
-        <input type="text" id="cargoInput" placeholder="Digite para buscar: ex: aux, meca, motorista, limpador, banhista..." autocomplete="off" oninput="filtrarProfissoes(this.value)">
+        <label for="cargoInput">Profissões (Adicione até 5 opções — digite para buscar por cargo ou área) *</label>
+        <input type="text" id="cargoInput" autocomplete="off" oninput="filtrarProfissoes(this.value)">
         <div id="sugestoesContainer" class="sugestoes-box hidden"></div>
         <div id="tagsContainer" class="tags-container"></div>
       </div>
@@ -439,9 +523,50 @@
           <option value="Ensino Médio Completo">Ensino Médio Completo</option>
           <option value="Técnico / Profissionalizante">Técnico / Profissionalizante</option>
           <option value="Superior Incompleto">Superior Incompleto</option>
-          <option value="Superior Completo" selected>Superior Completo</option>
+          <option value="Superior Completo">Superior Completo</option>
           <option value="Pós-Graduação / Especialização">Pós-Graduação / Especialização</option>
+          <option value="Mestrado / Doutorado">Mestrado / Doutorado</option>
+          <option value="Pós-Doutorado (PhD)">Pós-Doutorado (PhD)</option>
         </select>
+      </div>
+
+      <!-- SANFONA DE COMUNICAÇÃO E IDIOMAS -->
+      <div class="sanfona-box">
+        <button type="button" class="btn-sanfona" id="btnSanfonaIdiomas" aria-expanded="false" aria-controls="conteudoSanfonaIdiomas" onclick="alternarSanfonaIdiomas()">
+          <span>🌐 Comunicação e Idiomas (Opcional — Clique para abrir)</span>
+          <span id="setaSanfonaIdiomas">▼</span>
+        </button>
+
+        <div id="conteudoSanfonaIdiomas" class="sanfona-conteudo hidden">
+          <div class="form-group">
+            <label for="fluenciaPortugues">Como você avalia sua comunicação em Português?</label>
+            <select id="fluenciaPortugues" name="fluenciaPortugues">
+              <option value="Nativo / Fluente">Nativo / Fluente (Falo e compreendo perfeitamente)</option>
+              <option value="Avançado">Avançado (Me comunico bem no dia a dia e no trabalho)</option>
+              <option value="Intermediário">Intermediário (Compreendo bem, falo com alguma dificuldade)</option>
+              <option value="Básico">Básico / Pouco (Compreendo palavras e frases simples)</option>
+              <option value="Em aprendizado">Em aprendizado (Ainda não falo português — preciso de apoio na integração)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-top: 16px;">
+            <label>Outros idiomas que você fala ou compreende (Marque uma ou mais opções):</label>
+            <div class="grid-checkboxes">
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Inglês"> Inglês</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Espanhol"> Espanhol</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Alemão"> Alemão</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Francês"> Francês</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Italiano"> Italiano</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Haitiano"> Haitiano</label>
+              <label class="checkbox-item"><input type="checkbox" name="idiomas" value="Libras"> Libras (Língua Brasileira de Sinais)</label>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+            <label for="detalhesIdiomas">Outros idiomas, nível de fluência ou certificações (Ex: Inglês Técnico / ICAO para Aviação):</label>
+            <textarea id="detalhesIdiomas" name="detalhesIdiomas" rows="2"></textarea>
+          </div>
+        </div>
       </div>
 
       <!-- PRIMEIRO EMPREGO & HISTÓRICO PROFISSIONAL -->
@@ -453,24 +578,24 @@
 
         <div id="boxHistorico">
           <label for="historicoProfissional">Histórico Profissional / Experiências Anteriores:</label>
-          <textarea id="historicoProfissional" name="historicoProfissional" rows="3" placeholder="Descreva brevemente suas experiências anteriores.">bla, bla</textarea>
+          <textarea id="historicoProfissional" name="historicoProfissional" rows="3"></textarea>
         </div>
       </div>
 
       <!-- LINKEDIN / REDE PROFISSIONAL -->
       <div class="form-group" style="margin-top: 18px;">
         <label for="linkedinUrl">Perfil do LinkedIn ou Portfólio Profissional (Opcional):</label>
-        <input type="url" id="linkedinUrl" name="linkedinUrl" placeholder="https://www.linkedin.com/in/seu-perfil">
+        <input type="url" id="linkedinUrl" name="linkedinUrl">
       </div>
 
       <!-- TIPOS DE CONTRATAÇÃO -->
       <div class="form-group" style="margin-top: 18px;">
         <label>Interesse em Tipos de Contratação (Marque todas que aceita):</label>
         <div class="grid-checkboxes">
-          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="CLT" checked> CLT (Carteira Assinada)</label>
-          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="Temporario"> Contrato Temporário (até 90 dias)</label>
-          <label class="checkbox-item"><input type="checkbox" name="tipoCNPJ" value="CNPJ"> CNPJ / Prestador de Serviço</label>
-          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="Estagio"> Estágio</label>
+          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="CLT"> CLT (Carteira Assinada)</label>
+          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="Temporário"> Contrato Temporário (até 90 dias)</label>
+          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="CNPJ"> CNPJ / Prestador de Serviço</label>
+          <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="Estágio"> Estágio</label>
           <label class="checkbox-item"><input type="checkbox" name="tipoContratacao" value="Freelance"> Freelance / Serviços Pontuais (Eventos, Diárias, Apoio)</label>
         </div>
       </div>
@@ -478,9 +603,10 @@
       <div class="form-group" style="margin-top: 18px;">
         <label for="modalidade">Modalidade de Trabalho Preferida *</label>
         <select id="modalidade" name="modalidade" required aria-required="true">
-          <option value="Presencial" selected>Presencial</option>
+          <option value="">Selecione...</option>
+          <option value="Presencial">Presencial</option>
           <option value="Remoto">Remoto (Home Office)</option>
-          <option value="Hibrido">Híbrido</option>
+          <option value="Híbrido">Híbrido</option>
           <option value="Qualquer">Qualquer modalidade</option>
         </select>
       </div>
@@ -488,9 +614,10 @@
       <div class="form-group">
         <label for="cnh">Possui CNH (Carteira de Habilitação)? *</label>
         <select id="cnh" name="cnh" required aria-required="true">
+          <option value="">Selecione...</option>
           <option value="Não">Não possuo</option>
           <option value="Categoria A">Categoria A (Moto)</option>
-          <option value="Categoria B" selected>Categoria B (Carro)</option>
+          <option value="Categoria B">Categoria B (Carro)</option>
           <option value="Categoria AB">Categoria AB (Carro e Moto)</option>
           <option value="Categoria C">Categoria C (Caminhão / Utilitário Pesado)</option>
           <option value="Categoria D">Categoria D (Ônibus / Van)</option>
@@ -515,34 +642,188 @@
 </main>
 
 <script>
-  // BASE COMPLETA ATUALIZADA COM OS NOVOS CARGOS SOLICITADOS
-  const baseProfissoes = [
-    "Açougueiro", "Administrador de Redes", "Advogado", "Agente Autônomo de Investimentos", "Agente de Aeroporto", "Agente de Rampa",
-    "Ajudante de Carga e Descarga", "Almoxarife", "Analista Contábil", "Analista de Compliance", "Analista de Crédito", "Analista de Dados", 
-    "Analista de Recursos Humanos", "Analista Financeiro", "Arquiteto", "Armador", "Assistente Administrativo", "Assistente de Negócios", 
-    "Atendente / Vendedor de Joalheria", "Atendente de Caixa", "Atendente de Loja", "Auxiliar Administrativo", "Auxiliar de Açougue", 
-    "Auxiliar de Almoxarifado", "Auxiliar de Cozinha", "Auxiliar de Laboratório", "Auxiliar de Padaria", "Auxiliar de Produção", 
-    "Auxiliar de Recursos Humanos", "Balanceiro", "Banhista / Tosador de Pet Shop", "Biomédico", "Borracheiro", "Cadista", "Caixa Bancário", 
-    "CEO", "CFO", "CHRO", "CIO", "Classificador de Grãos", "Co-piloto", "Comissário de Bordo", "Comprador", "Confeiteiro", "Conferente", 
-    "Contador", "Controller", "COO", "Coordenador de Logística", "Coordenador Pedagógico", "Corretor de Imóveis", "Corretor de Seguros", 
-    "Cozinheiro", "Cuidador de Pets / Dog Walker", "Cuidador de Idosos", "Desenvolvedor", "Desenhista Projetista", "Designer", "Diarista", 
-    "Diretor Escolar", "Eletricista", "Empacotador", "Encanador", "Enfermeiro", "Engenheiro Agrônomo", "Engenheiro Civil", "Engenheiro de Produção", 
-    "Engenheiro Elétrico", "Especialista em Departamento Pessoal", "Estoquista", "Farmacêutico", "Faxineiro", "Ferreiro", "Fiscal de Loja", 
-    "Fisioterapeuta", "Florista", "Fonoaudiólogo", "Frentista", "Garçom", "Gerente Administrativo", "Gerente Bancário", "Gerente de Conta", 
-    "Gerente de Recursos Humanos", "Gerente de Vendas", "Gesseiro", "Inspetor de Alunos", "Inspetor de Qualidade", "Jardineiro", 
-    "Lavador de Pratos", "Limpador de Piscinas", "Limpador de Terrenos", "Marceneiro", "Massoterapeuta", "Mecânico", "Mecânico Industrial", 
-    "Médico", "Merendeira", "Mestre de Obras", "Monitor Infantil", "Montador de Móveis", "Motoboy", "Motorista", "Motorista Carreteiro", 
-    "Motorista de Caminhão", "Motorista de Ônibus", "Nutricionista", "Odontólogo", "Operador de Carga e Descarga", "Operador de Empilhadeira", 
-    "Operador de Loja", "Operador de Máquinas Agrícolas", "Operador de Processo Industrial", "Operador Logístico", "Orientador Educacional", 
-    "Padeiro", "Pavimentador / Operador de Asfalto", "Pedagogo", "Pedreiro", "Personal Trainer", "Piloto", "Pintor", "Porteiro", "Professor", 
-    "Professor de Academia", "Professor Universitário", "Programador", "Promotor de Vendas", "Psicólogo", "Radiologista", "Recepcionista de Eventos", 
-    "Repositor de Mercadorias", "Restaurador de Móveis", "Secretária", "Secretária Executiva", "Segurança", "Serralheiro", "Servente de Pedreiro", 
-    "Serviços Gerais", "Síndico", "Soldador", "Suporte Técnico", "Técnico de Enfermagem", "Técnico em Laboratório", "Técnico em Segurança do Trabalho", 
-    "Telemarketing", "Terapeuta", "Topógrafo", "Trader", "Trabalhador Rural", "Tutor EAD", "Vendedor de Automóveis", "Vendedor de Motocicletas", 
-    "Vendedor de Vestuário e Calçados", "Vendedor Externo", "Vendedor Interno", "Vigia", "Zelador"
+  // BASE COMPLETA EXPANDIDA: SAÚDE, MÉDICOS, ENGENHARIAS, AVIAÇÃO, SERVIÇOS, OPERACIONAL E VENDAS
+  const baseProfissoesIniciais = [
+    // A
+    "Açougueiro", "Administrador de Empresas", "Administrador de Redes", "Advogado", "Agente Autônomo de Investimentos",
+    "Agente de Aeroporto", "Agente de Rampa", "Ajudante de Carga e Descarga", "Ajudante de Cozinha", "Ajudante de Obras",
+    "Almoxarife", "Analista Contábil", "Analista de Compliance", "Analista de Crédito", "Analista de Dados",
+    "Analista de Recursos Humanos", "Analista de Vendas", "Analista Financeiro", "Anestesista / Médico Anestesiologista",
+    "Arquiteto", "Armador", "Assistente Administrativo", "Assistente Comercial / Vendas", "Assistente de Negócios",
+    "Assistente Social", "Astrólogo", "Atendente / Vendedor de Joalheria", "Atendente de Caixa", "Atendente de Farmácia",
+    "Atendente de Loja", "Audiodescritor", "Auto Mecânica", "Auxiliar Administrativo", "Auxiliar de Açougue",
+    "Auxiliar de Almoxarifado", "Auxiliar de Cozinha", "Auxiliar de Enfermagem", "Auxiliar de Farmácia",
+    "Auxiliar de Laboratório", "Auxiliar de Limpeza", "Auxiliar de Logística", "Auxiliar de Manutenção",
+    "Auxiliar de Padaria", "Auxiliar de Produção", "Auxiliar de Recursos Humanos", "Auxiliar de Serviços Gerais",
+    "Auxiliar de Vendas",
+    // B
+    "Babá / Cuidador Infantil", "Balanceiro", "Banhista / Tosador de Pet Shop", "Barista", "Biomédico", "Borracheiro",
+    // C
+    "Cadista", "Caixa Bancário", "Cardiologista / Médico Cardiologista", "Carpinteiro", "CEO", "CFO", "CHRO", "CIO",
+    "Cirurgião Cardiovascular", "Cirurgião Dentista", "Cirurgião Geral", "Cirurgião Plástico", "Cirurgião Vascular",
+    "Classificador de Grãos", "Clínico Geral / Médico Clínico Geral", "Co-piloto", "Comissário de Bordo", "Comprador",
+    "Confeiteiro", "Conferente", "Consultor", "Consultor Comercial / Vendas", "Consultor Contábil", "Consultor de RH",
+    "Consultor Jurídico", "Consultoria", "Contador", "Controller", "COO", "Coordenador Comercial / Vendas",
+    "Coordenador de Logística", "Coordenador Pedagógico", "Copeiro", "Corretor de Imóveis", "Corretor de Seguros",
+    "Cozinheiro", "Cozinheiro Industrial", "Cuidador de Crianças", "Cuidador de Idosos", "Cuidador de Pets / Dog Walker",
+    // D
+    "Dançarino (Tango, Dança de Rua, Pop e Outros)", "Dermatologista / Médico Dermatologista", "Desenvolvedor",
+    "Desenhista Projetista", "Designer", "Diagramador", "Diarista", "Diretor Comercial / Vendas", "Diretor Escolar",
+    // E
+    "Economista", "Educador Físico", "Eletricista", "Eletricista Automotivo", "Eletricista Industrial",
+    "Eletricista Predial / Residencial", "Empacotador", "Encanador / Bombeiro Hidráulico", "Enfermeiro",
+    "Enfermeiro do Trabalho", "Enfermeiro Obstetra", "Engenheiro Agrônomo", "Engenheiro Ambiental", "Engenheiro Civil",
+    "Engenheiro de Alimentos / Indústria Alimentícia", "Engenheiro de Automação Industrial",
+    "Engenheiro de Controle e Automação", "Engenheiro de Materiais", "Engenheiro de Produção",
+    "Engenheiro de Segurança do Trabalho", "Engenheiro de Software", "Engenheiro Eletricista", "Engenheiro Elétrico",
+    "Engenheiro Industrial", "Engenheiro Mecânico", "Engenheiro Químico", "Especialista CPA-10 / CPA-20 / CEA",
+    "Especialista em Departamento Pessoal", "Estoquista", "Executivo de Contas / Vendas",
+    // F
+    "Farmacêutico", "Farmacêutico Bioquímico", "Farmacêutico Hospitalar", "Faxineiro", "Ferreiro", "Fiscal de Loja",
+    "Fisioterapeuta", "Florista", "Fonoaudiólogo", "Frentista",
+    // G
+    "Garçom", "Gastrônomo / Chef de Cozinha", "Gerente", "Gerente Administrativo", "Gerente Bancário",
+    "Gerente Comercial", "Gerente Contábil", "Gerente de Conta", "Gerente de Logística", "Gerente de Loja",
+    "Gerente de Recursos Humanos", "Gerente de Vendas", "Gesseiro", "Ginecologista / Médico Ginecologista e Obstetra",
+    // I
+    "Inspetor de Alunos", "Inspetor de Qualidade", "Instrumentador Cirúrgico", "Intérprete de Libras",
+    // J
+    "Jardineiro", "Jornaleiro", "Jornalista",
+    // L
+    "Lavador de Pratos", "Limpador de Piscinas", "Limpador de Terrenos", "Locutor",
+    // M
+    "Manutenção Geral / Faz-Tudo", "Marceneiro", "Marido de Aluguel / Reparos Residenciais", "Massoterapeuta",
+    "Mecânico", "Mecânico Automotivo", "Mecânico Elétrico", "Mecânico Industrial", "Médico", "Médico do Trabalho",
+    "Médico Pediatra", "Médico Psiquiatra", "Mentor", "Mentor de Profissões", "Mentor de RH", "Mentoria",
+    "Merendeira", "Mestre de Obras", "Metalúrgico", "Monitor Infantil", "Montador de Móveis", "Motoboy", "Motorista",
+    "Motorista Carreteiro", "Motorista de Ambulância", "Motorista de Caminhão", "Motorista de Ônibus", "Músico",
+    // N
+    "Neurologista / Médico Neurologista", "Neuropsicólogo", "Nutricionista", "Nutricionista Clínico",
+    "Nutricionista Esportivo", "Nutricionista Hospitalar",
+    // O
+    "Odontólogo / Dentista", "Office-boy", "Oftalmologista / Médico Oftalmologista", "Operador de Caixa",
+    "Operador de Carga e Descarga", "Operador de Empilhadeira", "Operador de Loja", "Operador de Máquinas Agrícolas",
+    "Operador de Processo Industrial", "Operador de Telemarketing / Vendas", "Operador Logístico",
+    "Orientador Educacional", "Ortopedista / Médico Ortopedista",
+    // P
+    "Padeiro", "Pavimentador / Operador de Asfalto", "Pedagogo", "Pedreiro", "Personal Trainer", "Pesquisador",
+    "Pesquisador de Saúde Mental", "Pesquisador Universitário", "Piloto Comercial", "Piloto de Aeronaves",
+    "Piloto de Helicóptero", "Piloto Privado", "Pintor", "Pintor Automotivo", "Pintor Industrial",
+    "Pintor Predial / Residencial", "Pizzaiolo", "Porteiro", "Professor", "Professor de Academia",
+    "Professor de Artes Marciais", "Professor de Braille", "Professor de Dança", "Professor de Educação Especial",
+    "Professor de Informática", "Professor de Libras",
+    "Professor de Línguas Estrangeiras (Inglês, Espanhol, Alemão e Outros)",
+    "Professor de Orientação e Mobilidade", "Professor de Pilates", "Professor de Tango", "Professor Universitário",
+    "Programador", "Promotor de Vendas", "Psicanalista", "Psicólogo", "Psicólogo Clínico", "Psicólogo Organizacional",
+    "Psicopedagogo",
+    // R
+    "Radialista", "Radiologista", "Recepcionista", "Recepcionista de Clínica / Hospital", "Recepcionista de Eventos",
+    "Repositor de Mercadorias", "Representante Comercial / Vendas", "Restaurador de Móveis", "Revisor Braille",
+    // S
+    "Salgadeiro", "Secretária", "Secretária Executiva", "Segurança", "Segurança Armada (Vigilante)",
+    "Segurança de Carro-Forte", "Segundo Professor", "Serralheiro", "Servente de Obras", "Servente de Pedreiro",
+    "Serviços de Jardinagem", "Serviços Gerais", "Síndico", "Soldador", "Supervisor Comercial / Vendas",
+    "Suporte Técnico", "Sushiman",
+    // T
+    "Técnico de Enfermagem", "Técnico em Edificações", "Técnico em Eletrotécnica", "Técnico em Farmácia",
+    "Técnico em Laboratório", "Técnico em Nutrição e Dietética", "Técnico em Radiologia",
+    "Técnico em Segurança do Trabalho", "Telemarketing", "Terapeuta", "Terapeuta Ocupacional", "Topógrafo",
+    "Trader", "Trabalhador Rural", "Tutor EAD",
+    // V
+    "Vendedor", "Vendedor de Automóveis", "Vendedor de Consórcios", "Vendedor de Farmácia / Balconista",
+    "Vendedor de Loja / Varejo", "Vendedor de Materiais de Construção", "Vendedor de Motocicletas",
+    "Vendedor de Serviços", "Vendedor de Vestuário e Calçados", "Vendedor Externo", "Vendedor Interno",
+    "Vendedor Porta a Porta", "Vendedor Técnico", "Veterinário / Médico Veterinário", "Vigia",
+    // Z
+    "Zelador"
+  ];
+
+  // DICIONÁRIO DE CORREÇÃO ORTOGRÁFICA INTELIGENTE
+  const correcoesOrtograficas = {
+    "pisicologo": "Psicólogo",
+    "pisicologa": "Psicólogo",
+    "psicologa": "Psicólogo",
+    "pisicanalista": "Psicanalista",
+    "infermeira": "Enfermeiro",
+    "infermeiro": "Enfermeiro",
+    "enfermeira": "Enfermeiro",
+    "farmaceutico": "Farmacêutico",
+    "farmaceutica": "Farmacêutico",
+    "biomedico": "Biomédico",
+    "biomedica": "Biomédico",
+    "medico": "Médico",
+    "medica": "Médico",
+    "cirurgiao": "Cirurgião Geral",
+    "cirurgia": "Cirurgião Geral",
+    "ginecologista": "Ginecologista / Médico Ginecologista e Obstetra",
+    "nutriconista": "Nutricionista",
+    "nutricionista": "Nutricionista",
+    "eletresista": "Eletricista",
+    "eletricista": "Eletricista",
+    "encanador": "Encanador / Bombeiro Hidráulico",
+    "pintosr": "Pintor",
+    "pintor": "Pintor",
+    "elecoptero": "Piloto de Helicóptero",
+    "helicoptero": "Piloto de Helicóptero",
+    "aeronave": "Piloto de Aeronaves",
+    "aviao": "Piloto de Aeronaves",
+    "enegenheiro": "Engenheiro Civil",
+    "engenheiro": "Engenheiro Civil",
+    "construcao civel": "Engenheiro Civil",
+    "construcao civil": "Engenheiro Civil",
+    "alimenticia": "Engenheiro de Alimentos / Indústria Alimentícia",
+    "marido de aluguel": "Marido de Aluguel / Reparos Residenciais",
+    "faz tudo": "Manutenção Geral / Faz-Tudo",
+    "cuidador de crianca": "Cuidador de Crianças",
+    "cuidador de criancas": "Cuidador de Crianças",
+    "baba": "Babá / Cuidador Infantil",
+    "vendedora": "Vendedor",
+    "cozinheira": "Cozinheiro",
+    "secretario": "Secretária"
+  };
+
+  function carregarBaseProfissoes() {
+    let extrasSalvas = [];
+    try {
+      extrasSalvas = JSON.parse(localStorage.getItem('rhSemLimites_profissoesExtras') || '[]');
+    } catch (e) {
+      extrasSalvas = [];
+    }
+    const combinadas = [...new Set([...baseProfissoesIniciais, ...extrasSalvas])];
+    return combinadas.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  }
+
+  let baseProfissoes = carregarBaseProfissoes();
+
+  function salvarNovaProfissaoGlobal(novaProfissao) {
+    try {
+      const extrasSalvas = JSON.parse(localStorage.getItem('rhSemLimites_profissoesExtras') || '[]');
+      if (!extrasSalvas.some(p => normalizarTexto(p) === normalizarTexto(novaProfissao))) {
+        extrasSalvas.push(novaProfissao);
+        localStorage.setItem('rhSemLimites_profissoesExtras', JSON.stringify(extrasSalvas));
+      }
+      baseProfissoes = carregarBaseProfissoes();
+    } catch (e) {
+      console.log('Armazenamento local indisponível');
+    }
+  }
+
+  const termosImproprios = [
+    "pistoleiro", "estuprador", "estrupador", "lunatico", "assassino", "matador", "traficante", "ladrao", "bandido", 
+    "terrorista", "pedofilo", "prostituta", "garota de programa", "michê", "bicheiro", "agiota", "golpista", "estelionatario",
+    "merda", "porra", "caralho", "puta", "vagabundo", "idiota", "imbecil", "otario", "palhaco"
   ];
 
   let cargosSelecionados = [];
+
+  function normalizarTexto(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  }
+
+  function verificarTermoImproprio(texto) {
+    const limpo = normalizarTexto(texto);
+    return termosImproprios.some(palavra => limpo.includes(normalizarTexto(palavra)));
+  }
 
   function alternarAltoContraste() {
     document.body.classList.toggle('high-contrast');
@@ -560,34 +841,123 @@
     el.classList.toggle('hidden');
   }
 
+  function alternarSanfonaIdiomas() {
+    const conteudo = document.getElementById('conteudoSanfonaIdiomas');
+    const btn = document.getElementById('btnSanfonaIdiomas');
+    const seta = document.getElementById('setaSanfonaIdiomas');
+    const aberto = !conteudo.classList.contains('hidden');
+
+    if (aberto) {
+      conteudo.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      seta.textContent = '▼';
+    } else {
+      conteudo.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      seta.textContent = '▲';
+    }
+  }
+
   function filtrarProfissoes(texto) {
     const container = document.getElementById('sugestoesContainer');
-    if (!texto || texto.trim().length < 2) {
+    const textoLimpo = texto.trim();
+
+    if (textoLimpo.length < 2) {
       container.innerHTML = '';
       container.classList.add('hidden');
       return;
     }
 
-    const termo = texto.toLowerCase();
-    const filtradas = baseProfissoes.filter(p => p.toLowerCase().includes(termo) && !cargosSelecionados.includes(p));
+    if (verificarTermoImproprio(textoLimpo)) {
+      container.innerHTML = `
+        <div class="alerta-improprio" role="alert">
+          ⚠️ Nome ou profissão imprópria. Por favor, informe uma ocupação profissional válida.
+        </div>
+      `;
+      container.classList.remove('hidden');
+      return;
+    }
 
-    if (filtradas.length === 0) {
+    const termoNormalizado = normalizarTexto(textoLimpo);
+    let html = '';
+    let sugestaoCorrigida = null;
+
+    for (const [erroDigitado, grafiaCorreta] of Object.entries(correcoesOrtograficas)) {
+      if (termoNormalizado.includes(erroDigitado) && !cargosSelecionados.includes(grafiaCorreta)) {
+        sugestaoCorrigida = grafiaCorreta;
+        break;
+      }
+    }
+
+    if (sugestaoCorrigida) {
+      const seguroCorrigido = sugestaoCorrigida.replace(/'/g, "\\'");
+      html += `
+        <div class="sugestao-item sugestao-correcao" tabindex="0" onclick="adicionarCargo('${seguroCorrigido}', false)" onkeypress="if(event.key==='Enter') adicionarCargo('${seguroCorrigido}', false)">
+          ✨ Você quis dizer: <strong>${sugestaoCorrigida}</strong>? (Clique para selecionar)
+        </div>
+      `;
+    }
+
+    const filtradas = baseProfissoes.filter(p => 
+      normalizarTexto(p).includes(termoNormalizado) &&
+      !cargosSelecionados.includes(p) &&
+      p !== sugestaoCorrigida
+    );
+
+    html += filtradas.slice(0, 12).map(p => {
+      const seguro = p.replace(/'/g, "\\'");
+      return `<div class="sugestao-item" tabindex="0" onclick="adicionarCargo('${seguro}', false)" onkeypress="if(event.key==='Enter') adicionarCargo('${seguro}', false)">${p}</div>`;
+    }).join('');
+
+    const existeExata = baseProfissoes.some(p => normalizarTexto(p) === termoNormalizado) || 
+                        cargosSelecionados.some(c => normalizarTexto(c) === termoNormalizado) ||
+                        sugestaoCorrigida !== null;
+
+    if (!existeExata && textoLimpo.length >= 3) {
+      const nomeFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1);
+      const nomeSeguro = nomeFormatado.replace(/'/g, "\\'");
+      html += `
+        <div class="sugestao-nova">
+          <span>Profissão não listada: <strong>"${nomeFormatado}"</strong>. Deseja incluir?</span>
+          <div>
+            <button type="button" onclick="adicionarCargo('${nomeSeguro}', true)">Sim, incluir</button>
+            <button type="button" class="btn-cancelar" onclick="limparBuscaProfissao()">Cancelar</button>
+          </div>
+        </div>
+      `;
+    }
+
+    if (html === '') {
       container.innerHTML = '';
       container.classList.add('hidden');
       return;
     }
 
-    container.innerHTML = filtradas.slice(0, 8).map(p => `
-      <div class="sugestao-item" tabindex="0" onclick="adicionarCargo('${p}')" onkeypress="if(event.key==='Enter') adicionarCargo('${p}')">${p}</div>
-    `).join('');
-
+    container.innerHTML = html;
     container.classList.remove('hidden');
   }
 
-  function adicionarCargo(cargo) {
-    if (cargosSelecionados.length >= 5) {
-      alert('Você pode selecionar no máximo 5 cargos de interesse.');
+  function limparBuscaProfissao() {
+    const input = document.getElementById('cargoInput');
+    input.value = '';
+    document.getElementById('sugestoesContainer').classList.add('hidden');
+    input.focus();
+  }
+
+  function adicionarCargo(cargo, ehNovaProfissao = false) {
+    if (verificarTermoImproprio(cargo)) {
+      alert('Nome ou profissão imprópria. Não é possível adicionar este termo.');
+      limparBuscaProfissao();
       return;
+    }
+
+    if (cargosSelecionados.length >= 5) {
+      alert('Você pode selecionar no máximo 5 profissões de interesse.');
+      return;
+    }
+
+    if (ehNovaProfissao) {
+      salvarNovaProfissaoGlobal(cargo);
     }
 
     if (!cargosSelecionados.includes(cargo)) {
@@ -595,10 +965,7 @@
       atualizarTagsCargos();
     }
 
-    const input = document.getElementById('cargoInput');
-    input.value = '';
-    document.getElementById('sugestoesContainer').classList.add('hidden');
-    input.focus();
+    limparBuscaProfissao();
   }
 
   function removerCargo(cargo) {
@@ -686,14 +1053,169 @@
     }
   }
 
+  // CARREGA DADOS EXISTENTES AUTOMATICAMENTE QUANDO VIER DO BOTÃO "EDITAR MEU CADASTRO"
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('editar') === '1') {
+      try {
+        const salvo = localStorage.getItem('rhSemLimites_candidatoAtivo');
+        if (!salvo) return;
+        const c = JSON.parse(salvo);
+
+        document.querySelector('h1').innerText = 'ATUALIZAR CADASTRO - RH SEM LIMITES';
+        document.querySelector('.btn-submit').innerText = 'Salvar Alterações e Voltar ao Painel';
+
+        if (c.nome) document.getElementById('nome').value = c.nome;
+        if (c.email) document.getElementById('email').value = c.email;
+        if (c.cpf) document.getElementById('cpf').value = c.cpf;
+        if (c.telefone) document.getElementById('telefone').value = c.telefone;
+
+        if (c.possuiPcd === 'Sim') {
+          document.querySelector('input[name="possuiPcd"][value="Sim"]').checked = true;
+          alternarPerguntaPcd(true);
+          if (c.tipoPcd) document.getElementById('tipoPcd').value = c.tipoPcd;
+          if (c.recursosAcessibilidade?.mobilidade) {
+            c.recursosAcessibilidade.mobilidade.forEach(val => {
+              const cb = document.querySelector(`input[name="mobilidade"][value="${val}"]`);
+              if (cb) cb.checked = true;
+            });
+          }
+          if (c.recursosAcessibilidade?.tecnologia) {
+            c.recursosAcessibilidade.tecnologia.forEach(val => {
+              const cb = document.querySelector(`input[name="tecnologia"][value="${val}"]`);
+              if (cb) cb.checked = true;
+            });
+          }
+          if (c.recursosAcessibilidade?.salaSensorial) {
+            const rad = document.querySelector(`input[name="salaSensorial"][value="${c.recursosAcessibilidade.salaSensorial}"]`);
+            if (rad) rad.checked = true;
+          }
+          if (c.recursosAcessibilidade?.outrosRecursos) {
+            document.getElementById('outrosRecursos').value = c.recursosAcessibilidade.outrosRecursos;
+          }
+        }
+
+        if (c.endereco) {
+          document.getElementById('cep').value = c.endereco.cep || '';
+          document.getElementById('rua').value = c.endereco.rua || '';
+          document.getElementById('numero').value = c.endereco.numero || '';
+          document.getElementById('bairro').value = c.endereco.bairro || '';
+          document.getElementById('cidade').value = c.endereco.cidade || '';
+          document.getElementById('estado').value = c.endereco.estado || '';
+        }
+
+        if (Array.isArray(c.profissoes)) {
+          cargosSelecionados = [...c.profissoes];
+          atualizarTagsCargos();
+        }
+
+        if (c.escolaridade) document.getElementById('escolaridade').value = c.escolaridade;
+        if (c.comunicacao) {
+          if (c.comunicacao.fluenciaPortugues) document.getElementById('fluenciaPortugues').value = c.comunicacao.fluenciaPortugues;
+          if (Array.isArray(c.comunicacao.idiomas)) {
+            c.comunicacao.idiomas.forEach(val => {
+              const cb = document.querySelector(`input[name="idiomas"][value="${val}"]`);
+              if (cb) cb.checked = true;
+            });
+          }
+          if (c.comunicacao.detalhesIdiomas) document.getElementById('detalhesIdiomas').value = c.comunicacao.detalhesIdiomas;
+        }
+
+        if (c.primeiroEmprego) {
+          document.getElementById('primeiroEmprego').checked = true;
+          alternarPrimeiroEmprego(true);
+        } else if (c.historicoProfissional) {
+          document.getElementById('historicoProfissional').value = c.historicoProfissional;
+        }
+
+        if (c.linkedinUrl) document.getElementById('linkedinUrl').value = c.linkedinUrl;
+        if (Array.isArray(c.tiposContratacao)) {
+          c.tiposContratacao.forEach(val => {
+            const cb = document.querySelector(`input[name="tipoContratacao"][value="${val}"]`);
+            if (cb) cb.checked = true;
+          });
+        }
+
+        if (c.modalidade) document.getElementById('modalidade').value = c.modalidade;
+        if (c.cnh) document.getElementById('cnh').value = c.cnh;
+        document.getElementById('lgpd').checked = true;
+      } catch (e) {
+        console.log('Erro ao carregar dados para edição:', e);
+      }
+    }
+  });
+
+  // EMPACOTA TODOS OS DADOS PARA O PAINEL DO CANDIDATO, JARDI E SUPABASE
   function finalizarCadastro(e) {
     e.preventDefault();
+
     if (cargosSelecionados.length === 0) {
-      alert('Por favor, selecione pelo menos 1 cargo de interesse.');
+      alert('Por favor, selecione pelo menos 1 profissão de interesse.');
       document.getElementById('cargoInput').focus();
       return;
     }
-    alert('Cadastro realizado com sucesso! Seja bem-vindo à RH Sem Limites.');
+
+    const possuiPcd = document.querySelector('input[name="possuiPcd"]:checked')?.value || 'Não';
+    if (possuiPcd === 'Sim' && !document.getElementById('tipoPcd').value) {
+      alert('Por favor, selecione o tipo de deficiência ou condição.');
+      document.getElementById('tipoPcd').focus();
+      return;
+    }
+
+    const mobilidadeSelecionada = Array.from(document.querySelectorAll('input[name="mobilidade"]:checked')).map(el => el.value);
+    const tecnologiaSelecionada = Array.from(document.querySelectorAll('input[name="tecnologia"]:checked')).map(el => el.value);
+    const idiomasSelecionados = Array.from(document.querySelectorAll('input[name="idiomas"]:checked')).map(el => el.value);
+    const contratosSelecionados = Array.from(document.querySelectorAll('input[name="tipoContratacao"]:checked')).map(el => el.value);
+
+    const dadosCandidato = {
+      nome: document.getElementById('nome').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      cpf: document.getElementById('cpf').value.trim(),
+      telefone: document.getElementById('telefone').value.trim(),
+      possuiPcd: possuiPcd,
+      tipoPcd: possuiPcd === 'Sim' ? document.getElementById('tipoPcd').value : '',
+      recursosAcessibilidade: {
+        mobilidade: mobilidadeSelecionada,
+        tecnologia: tecnologiaSelecionada,
+        salaSensorial: document.querySelector('input[name="salaSensorial"]:checked')?.value || 'Não',
+        outrosRecursos: document.getElementById('outrosRecursos').value.trim()
+      },
+      endereco: {
+        cep: document.getElementById('cep').value.trim(),
+        rua: document.getElementById('rua').value.trim(),
+        numero: document.getElementById('numero').value.trim(),
+        bairro: document.getElementById('bairro').value.trim(),
+        cidade: document.getElementById('cidade').value.trim(),
+        estado: document.getElementById('estado').value.trim().toUpperCase()
+      },
+      profissoes: cargosSelecionados,
+      escolaridade: document.getElementById('escolaridade').value,
+      comunicacao: {
+        fluenciaPortugues: document.getElementById('fluenciaPortugues').value,
+        idiomas: idiomasSelecionados,
+        detalhesIdiomas: document.getElementById('detalhesIdiomas').value.trim()
+      },
+      primeiroEmprego: document.getElementById('primeiroEmprego').checked,
+      historicoProfissional: document.getElementById('historicoProfissional').value.trim(),
+      linkedinUrl: document.getElementById('linkedinUrl').value.trim(),
+      tiposContratacao: contratosSelecionados,
+      modalidade: document.getElementById('modalidade').value,
+      cnh: document.getElementById('cnh').value,
+      dataCadastro: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem('rhSemLimites_candidatoAtivo', JSON.stringify(dadosCandidato));
+    } catch (err) {
+      console.log('Erro ao salvar dados localmente:', err);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('editar') === '1') {
+      alert('Cadastro atualizado com sucesso!');
+    } else {
+      alert('Cadastro realizado com sucesso! Seja bem-vindo(a) à RH Sem Limites.');
+    }
     window.location.href = 'painel-candidato.html';
   }
 </script>

@@ -9,6 +9,8 @@
       --primary: #0a66c2;          /* Azul estilo corporativo / LinkedIn */
       --primary-dark: #004182;
       --accent: #2e7d32;
+      --jardi-color: #6a1b9a;      /* Destaque para a Jardi IA */
+      --jardi-dark: #4a148c;
       --bg-color: #f3f2ef;        /* Fundo suave neutro estilo LinkedIn */
       --card-bg: #ffffff;
       --text-color: #191919;
@@ -25,11 +27,12 @@
       --primary-dark: #fbc02d;
       --border-color: #ffeb3b;
       --accent: #00e676;
+      --jardi-color: #ffeb3b;
     }
     body.high-contrast a, body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast label {
       color: #ffeb3b !important;
     }
-    body.high-contrast .sub-box, body.high-contrast .vaga-card {
+    body.high-contrast .sub-box, body.high-contrast .vaga-card, body.high-contrast .jardi-box, body.high-contrast .modal-content {
       background-color: #1a1a1a !important;
       border-color: #ffeb3b !important;
     }
@@ -123,6 +126,21 @@
       padding-bottom: 8px;
     }
 
+    /* CAIXA DESTAQUE JARDI PARA EMPRESAS */
+    .jardi-box {
+      background: linear-gradient(135deg, #f8f0fc 0%, #eef5fc 100%);
+      border: 2px solid var(--jardi-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .jardi-box h3 {
+      margin: 0 0 8px 0;
+      color: var(--jardi-dark);
+      font-size: 1.15rem;
+    }
+
     .btn-action {
       background-color: var(--primary);
       color: white;
@@ -150,6 +168,16 @@
 
     .btn-accent:hover, .btn-accent:focus {
       background-color: #215c25;
+    }
+
+    .btn-jardi {
+      background-color: var(--jardi-color);
+      color: #ffffff;
+      font-size: 1.05rem;
+      padding: 12px 18px;
+    }
+    .btn-jardi:hover, .btn-jardi:focus {
+      background-color: var(--jardi-dark);
     }
 
     .btn-small {
@@ -197,6 +225,54 @@
       margin-top: 12px;
     }
 
+    /* REDES SOCIAIS & FEEDBACK */
+    .social-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .footer-feedback {
+      background-color: #f8f9fa;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* MODAL DO VÍDEO INSTITUCIONAL DA JARDI */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 2px solid var(--jardi-color);
+      border-radius: 12px;
+      max-width: 640px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
     .hidden {
       display: none !important;
     }
@@ -208,34 +284,49 @@
 
   <!-- ACESSIBILIDADE VISUAL -->
   <div class="accessibility-bar">
-    <button class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
+    <button type="button" class="btn-acess" onclick="alternarBloco('painelAcessibilidade')">
       👁️ Opções de Acessibilidade Visual (Contraste e Fontes)
     </button>
     <div id="painelAcessibilidade" class="accessibility-controls hidden" style="width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
-      <button class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
-      <button class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
-      <button class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
+      <button type="button" class="btn-acess" onclick="alternarAltoContraste()">👁️ Alto Contraste (Amarelo no Preto)</button>
+      <button type="button" class="btn-acess" onclick="alterarFonte('aumentar')">A+ Aumentar Fonte</button>
+      <button type="button" class="btn-acess" onclick="alterarFonte('diminuir')">A- Diminuir Fonte</button>
     </div>
   </div>
 
   <!-- CABEÇALHO CORPORATIVO -->
   <header class="welcome-card">
-    <h1 id="nomeEmpresaHeader">Bem-vinda, [Nome da Empresa Parceira]!</h1>
-    <p>Painel Administrativo Corporativo na <strong>RH Sem Limites</strong>.</p>
-    <span class="badge-status">✓ Plano Ativo: Essencial (50% de Desconto no 1º Ano)</span>
+    <h1 id="nomeEmpresaHeader">Bem-vinda, Empresa Parceira!</h1>
+    <p id="subtituloEmpresaHeader">Painel Administrativo Corporativo na <strong>RH Sem Limites</strong>.</p>
+    <span id="badgePlanoAtivo" class="badge-status">✓ Plano Ativo: Plano Base Recorrente</span>
   </header>
 
-  <!-- 1. PUBLICAÇÃO DE VAGAS -->
+  <!-- 1. PUBLICAÇÃO DE VAGAS & ASSISTÊNCIA DA JARDI IA -->
   <section class="section-card">
-    <h2>1. Publicação de Vagas (Regra de Acessibilidade em Texto)</h2>
-    <p>Para garantir total acessibilidade e igualdade na ampla concorrência, publique novas oportunidades em formato textual claro.</p>
+    <h2>1. Publicação de Vagas & Assistência da Jardi (IA)</h2>
+    <p>Publique novas oportunidades com suporte de IA para garantir clareza, acessibilidade e alinhamento ao Método Profissional Anjo.</p>
     
     <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-      <button class="btn-action" onclick="alternarBloco('formPublicarVaga')">
+      <button type="button" class="btn-action" onclick="alternarBloco('formPublicarVaga')">
         📢 Publicar Nova Vaga
       </button>
-      <button class="btn-action" style="background-color: #004182;" onclick="alternarBloco('painelVagasCadastradas')">
+      <button type="button" class="btn-action" style="background-color: #004182;" onclick="alternarBloco('painelVagasCadastradas')">
         📁 Vagas Publicadas
+      </button>
+      <button type="button" class="btn-action" style="background-color: var(--jardi-color);" onclick="abrirModalVideoJardi()">
+        📺 Conhecer a Jardi (Vídeo Explicativo)
+      </button>
+    </div>
+
+    <!-- RECURSO DA JARDI PARA CRIAR VAGAS -->
+    <div class="jardi-box">
+      <h3>✨ Criar Vaga Inteligente com a Jardi</h3>
+      <p style="margin: 0 0 10px 0; font-size: 0.95rem;">
+        Precisa de ajuda para estruturar uma vaga rapidamente? Descreva abaixo o que você precisa em poucas palavras e a Jardi monta o anúncio profissional e acessível para você:
+      </p>
+      <textarea id="promptRascunhoJardi" rows="2" placeholder="Digite aqui o que você precisa de forma simples..."></textarea>
+      <button type="button" class="btn-action btn-jardi" onclick="gerarVagaComJardi()">
+        ✨ Estruturar Anúncio com a Jardi
       </button>
     </div>
 
@@ -243,82 +334,67 @@
     <div id="formPublicarVaga" class="sub-box hidden">
       <h3>Cadastrar Oportunidade Estruturada</h3>
       <form onsubmit="salvarVagaEmpresa(event)">
+        
+        <label><strong>Unidade / Filial de Destino da Vaga:</strong></label>
+        <select id="selectUnidadeVaga" required>
+          <option value="Matriz (Chapecó - SC)">Matriz (Chapecó - SC)</option>
+        </select>
+
         <label><strong>Título da Vaga / Cargo:</strong></label>
         <input type="text" id="vagaTitulo" required>
 
         <label><strong>Nível do Cargo:</strong></label>
-        <select required>
+        <select id="vagaNivel" required>
           <option value="">Selecione o nível do cargo...</option>
-          <option value="operacional">Operacional / Auxiliar</option>
-          <option value="tecnico">Técnico / Especialista</option>
-          <option value="gestao">Liderança / Gestão / Coordenação</option>
-          <option value="executivo">Executivo / Diretoria / C-Level</option>
+          <option value="Operacional / Auxiliar">Operacional / Auxiliar</option>
+          <option value="Técnico / Especialista">Técnico / Especialista</option>
+          <option value="Liderança / Gestão / Coordenação">Liderança / Gestão / Coordenação</option>
+          <option value="Executivo / Diretoria / C-Level">Executivo / Diretoria / C-Level</option>
         </select>
 
         <label><strong>Modelo de Trabalho:</strong></label>
-        <select required>
+        <select id="vagaModelo" required>
           <option value="">Selecione o formato de trabalho...</option>
-          <option value="presencial">Presencial</option>
-          <option value="homeoffice">Home Office / Remoto</option>
-          <option value="hibrido">Híbrido</option>
-          <option value="freelance">Freelancer / Projeto</option>
+          <option value="Presencial">Presencial</option>
+          <option value="Remoto (Home Office)">Remoto (Home Office)</option>
+          <option value="Híbrido">Híbrido</option>
+          <option value="Freelancer / Projeto">Freelancer / Projeto</option>
         </select>
 
         <!-- LOCALIZAÇÃO -->
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 140px;">
             <label><strong>Estado (UF):</strong></label>
-            <select required>
-              <option value="">Selecione o Estado...</option>
-              <option value="AC">Acre (AC)</option>
-              <option value="AL">Alagoas (AL)</option>
-              <option value="AP">Amapá (AP)</option>
-              <option value="AM">Amazonas (AM)</option>
-              <option value="BA">Bahia (BA)</option>
-              <option value="CE">Ceará (CE)</option>
-              <option value="DF">Distrito Federal (DF)</option>
-              <option value="ES">Espírito Santo (ES)</option>
-              <option value="GO">Goiás (GO)</option>
-              <option value="MA">Maranhão (MA)</option>
-              <option value="MT">Mato Grosso (MT)</option>
-              <option value="MS">Mato Grosso do Sul (MS)</option>
-              <option value="MG">Minas Gerais (MG)</option>
-              <option value="PA">Pará (PA)</option>
-              <option value="PB">Paraíba (PB)</option>
-              <option value="PR">Paraná (PR)</option>
-              <option value="PE">Pernambuco (PE)</option>
-              <option value="PI">Piauí (PI)</option>
-              <option value="RJ">Rio de Janeiro (RJ)</option>
-              <option value="RN">Rio Grande do Norte (RN)</option>
-              <option value="RS">Rio Grande do Sul (RS)</option>
-              <option value="RO">Rondônia (RO)</option>
-              <option value="RR">Roraima (RR)</option>
+            <select id="vagaEstado" required>
               <option value="SC">Santa Catarina (SC)</option>
+              <option value="PR">Paraná (PR)</option>
+              <option value="RS">Rio Grande do Sul (RS)</option>
               <option value="SP">São Paulo (SP)</option>
-              <option value="SE">Sergipe (SE)</option>
-              <option value="TO">Tocantins (TO)</option>
             </select>
           </div>
           <div style="flex: 2; min-width: 180px;">
             <label><strong>Cidade:</strong></label>
-            <input type="text" required>
+            <input type="text" id="vagaCidade" value="Chapecó" required>
           </div>
           <div style="flex: 2; min-width: 180px;">
             <label><strong>Bairro:</strong></label>
-            <input type="text" required>
+            <input type="text" id="vagaBairro" required>
           </div>
         </div>
 
         <label><strong>Faixa Salarial & Benefícios (Opcional):</strong></label>
-        <input type="text">
+        <input type="text" id="vagaSalario" placeholder="Ex: R$ 2.500,00 + Vale Alimentação">
 
         <label><strong>Jornada de Trabalho & Horário:</strong></label>
-        <input type="text" required>
+        <input type="text" id="vagaJornada" placeholder="Ex: Segunda a Sexta, das 08h às 18h" required>
 
         <label><strong>Descrição Detalhada e Requisitos (Texto Acessível):</strong></label>
         <textarea rows="5" id="vagaDescricao" required></textarea>
 
-        <button type="submit" class="btn-action btn-accent">Cadastrar e Publicar Vaga</button>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+          <button type="submit" class="btn-action btn-accent">Publicar Vaga no Portal</button>
+          <button type="button" class="btn-action" style="background-color: #757575;" onclick="limparFormVaga()">Cancelar / Limpar</button>
+        </div>
       </form>
     </div>
 
@@ -338,8 +414,8 @@
 
     <div style="margin: 15px 0;">
       <p><strong>Você deseja auxílio especializado da RH Sem Limites para estruturar esta vaga e triagem?</strong></p>
-      <button class="btn-action" style="background-color: #2e7d32; margin-right: 8px;" onclick="auxilioSim()">Sim, quero suporte</button>
-      <button class="btn-action" style="background-color: #c62828;" onclick="auxilioNao()">Não, gerenciaremos internamente</button>
+      <button type="button" class="btn-action" style="background-color: #2e7d32; margin-right: 8px;" onclick="auxilioSim()">Sim, quero suporte</button>
+      <button type="button" class="btn-action" style="background-color: #c62828;" onclick="auxilioNao()">Não, gerenciaremos internamente</button>
     </div>
 
     <div id="msgAuxilioSim" class="sub-box hidden" style="border-color: #2e7d32; background-color: #e8f5e9;">
@@ -353,186 +429,143 @@
     <div id="msgAuxilioNao" class="sub-box hidden" style="border-color: #c62828; background-color: #ffebee;">
       <h3 style="color: #c62828; margin-top:0;">Termo de Responsabilidade Operacional</h3>
       <p><em>"A RH Sem Limites não se responsabiliza por este processo seletivo e toda a estrutura, triagem e conformidade legal são de total responsabilidade do contratante."</em></p>
-      <p style="font-size: 0.85rem; color: #555; background: #fff; padding: 8px; border-radius: 4px; margin-top: 8px;">
-        <strong>Nota de Escopo:</strong> A equipe da RH Sem Limites ministra os treinamentos e aplica o checklist de acompanhamento até a conclusão do ciclo de 90 dias. Toda a execução operacional e contratação formal permanecem sob responsabilidade da empresa.
-      </p>
-      <button class="btn-action" style="background-color: #333; font-size: 0.85rem; margin-top: 8px;" onclick="registrarTermoAutomatico()">Registrar e Enviar Termo ao Sistema</button>
+      <button type="button" class="btn-action" style="background-color: #333; font-size: 0.85rem; margin-top: 8px;" onclick="registrarTermoAutomatico()">Registrar e Enviar Termo ao Sistema</button>
     </div>
   </section>
 
-  <!-- 3. O MÉTODO PROFISSIONAL ANJO -->
+  <!-- 3. O MÉTODO PROFISSIONAL ANJO & SUPORTE ESPECIALIZADO -->
   <section class="section-card">
-    <h2>3. O Método Profissional Anjo (Mentoria & Acompanhamento)</h2>
-    <p>Conheça a estrutura de capacitação de líderes e integração humanizada com ciclo de 90 dias:</p>
+    <h2>3. O Método Profissional Anjo, Mentorias & Palestras</h2>
+    <p>Conheça a estrutura de capacitação de líderes, suporte especializado em NR-1, consultoria em RH e palestras corporativas:</p>
 
-    <button class="btn-action" style="background-color: var(--primary);" onclick="alternarBloco('boxMetodoAnjo')">
-      📘 Conhecer Diretrizes e Acompanhamento do Método Anjo
+    <button type="button" class="btn-action" style="background-color: var(--primary);" onclick="alternarBloco('boxMetodoAnjo')">
+      📘 Conhecer Diretrizes e Solicitar Suporte Especializado
     </button>
     
     <div id="boxMetodoAnjo" class="sub-box hidden">
-      <h3 style="color: var(--primary); margin-top:0;">Diretrizes do Método:</h3>
-      <ul style="margin: 0; padding-left: 20px;">
-        <li>Diagnóstico de Acessibilidade, Acesso e Tecnologias Assistivas.</li>
-        <li>Diagnóstico estruturado de vagas e cargos.</li>
-        <li>Divulgação acessível e inclusiva em múltiplos canais.</li>
-        <li><strong>Entrevista humanizada com perguntas estratégicas e estruturadas para PcDs e candidatos.</strong></li>
-        <li>Triagem humanizada de currículos e avaliações alinhadas ao perfil corporativo.</li>
-        <li>Treinamento prático de lideranças, gestores e equipes de trabalho.</li>
-        <li>Onboarding assistido e indicação formal do Profissional Anjo na empresa.</li>
+      <h3 style="color: var(--primary); margin-top:0;">Opções de Suporte Disponíveis para sua Empresa:</h3>
+      <ul style="margin: 0 0 15px 0; padding-left: 20px;">
+        <li><strong>Mentores & Consultores Parceiros:</strong> Apoio em Recrutamento e Seleção.</li>
+        <li><strong>Especialistas em NR-1:</strong> Adequação de saúde mental e segurança no trabalho.</li>
+        <li><strong>Palestras Corporativas:</strong> Diversidade, Inclusão e Empatia.</li>
+        <li><strong>Método Profissional Anjo:</strong> Ciclo de onboarding de 90 dias assistido.</li>
       </ul>
-      <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="https://wa.me/5549999208261?text=Olá!%20Gostaria%20de%20solicitar%20o%20Método%20Profissional%20Anjo" target="_blank" class="btn-action btn-accent">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="https://wa.me/5549999208261?text=Olá!%20Gostaria%20de%20solicitar%20suporte%20de%20mentores,%20consultores,%20NR-1%20ou%20palestras" target="_blank" class="btn-action btn-accent">
           💬 Solicitar via WhatsApp (49) 99920-8261
         </a>
-        <a href="mailto:rhsemlimites2024@gmail.com?subject=Solicitacao%20do%20Metodo%20Profissional%20Anjo" class="btn-action" style="background-color: #004182;">
-          ✉️ Enviar E-mail para a Consultoria
-        </a>
       </div>
     </div>
   </section>
 
-  <!-- SANFONA: PALESTRAS CORPORATIVAS -->
+  <!-- 4. PLANOS E ASSINATURAS -->
   <section class="section-card">
-    <h2>4. Palestras Corporativas & Treinamentos</h2>
-    <p>Capacite suas equipes com palestras focadas em inclusão, saúde e desenvolvimento humano.</p>
-    
-    <button class="btn-action" style="background-color: #004182;" onclick="alternarBloco('boxPalestras')">
-      🎤 Deseja Contratar Palestras? (Sanfona)
-    </button>
-
-    <div id="boxPalestras" class="sub-box hidden">
-      <h3>Temas Disponíveis para Palestras Corporativas:</h3>
-      <ul style="margin: 0; padding-left: 20px;">
-        <li>Diversidade e Inclusão na Prática Corporativa</li>
-        <li>Treinamento de Equipes sobre Inclusão de PcDs</li>
-        <li>Tecnologia, Inovação e Acessibilidade no Ambiente de Trabalho</li>
-        <li>Saúde Mental no Ambiente de Trabalho & Adaptação às Diretrizes da NR-1</li>
-        <li>Desenvolvimento Humano, Liderança e Empatia</li>
-      </ul>
-      <div style="margin-top: 15px;">
-        <a href="https://wa.me/5549999208261?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20de%20Palestra" target="_blank" class="btn-action btn-accent">
-          💬 Solicitar Orçamento de Palestra via WhatsApp
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SANFONA: MENTORES E CONSULTORES PARCEIROS -->
-  <section class="section-card">
-    <h2>5. Mentorias & Consultores Parceiros</h2>
-    <p>Conecte sua empresa a soluções de consultoria em RH e recrutamento especializado.</p>
-
-    <button class="btn-action" style="background-color: #7b1fa2;" onclick="alternarBloco('boxMentores')">
-      🤝 Deseja Contratar Mentores e Consultores Parceiros? (Sanfona)
-    </button>
-
-    <div id="boxMentores" class="sub-box hidden" style="border-color: #7b1fa2; background-color: #fcf4ff;">
-      <h3 style="color: #4a148c; margin-top:0;">Selecione o Serviço de Consultoria Desejado:</h3>
-      <form onsubmit="solicitarConsultoriaParceira(event)">
-        <label><input type="checkbox" name="servico" value="Consultoria em RH"> Contratar Consultoria em RH</label><br>
-        <label><input type="checkbox" name="servico" value="Vagas Executivas"> Contratar Consultor para Vagas Executivas</label><br>
-        <label><input type="checkbox" name="servico" value="Mentor Parceiro"> Contratar Mentor Parceiro</label><br>
-        <label><input type="checkbox" name="servico" value="Vagas Operacionais"> Contratar Serviços de RH para Vagas Operacionais</label><br><br>
-
-        <label><strong>Outro (Descreva exatamente o que sua empresa precisa):</strong></label>
-        <textarea rows="3" placeholder="Escreva detalhadamente sua demanda corporativa aqui..."></textarea>
-
-        <button type="submit" class="btn-action" style="background-color: #7b1fa2; margin-top: 10px;">
-          📩 Enviar Solicitação de Consultoria
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- 6. PLANOS E ASSINATURAS -->
-  <section class="section-card">
-    <h2>6. Planos e Assinaturas (50% de Desconto no 1º Ano)</h2>
-    <p>Escolha a modalidade de publicação ideal para o momento da sua empresa:</p>
+    <h2>4. Planos e Assinaturas (50% de Desconto no 1º Ano)</h2>
+    <p>Escolha a modalidade ideal para sua empresa. <strong>Planos recorrentes já incluem acesso ilimitado à Jardi (IA) para criar vagas!</strong></p>
     
     <!-- PLANO AVULSO -->
     <div class="vaga-card" style="border-left-color: #f39c12;">
-      <h3>Anúncio de Vaga Avulsa</h3>
-      <p><strong>Valor:</strong> R$ 50,00 por vaga publicada (Sem mensalidade ou fidelidade)</p>
-      <button class="btn-action" style="background-color: #f39c12; color: #000;" onclick="assinarPlano('Vaga Avulsa - R$ 50,00')">Contratar Vaga Avulsa</button>
+      <h3>Anúncio de Vaga Avulsa (Sem Planos)</h3>
+      <p><strong>Valor:</strong> R$ 50,00 por vaga publicada (Não inclui automação com a Jardi).</p>
+      <button type="button" class="btn-action" style="background-color: #f39c12; color: #000;" onclick="assinarPlano('Vaga Avulsa - R$ 50,00')">Contratar Vaga Avulsa</button>
     </div>
 
     <!-- PLANO BASE -->
     <div class="vaga-card">
-      <h3>Plano Base (Até 3 Vagas / Trimestre)</h3>
+      <h3>Plano Base (Até 3 Vagas / Trimestre) — 🌟 Com Jardi IA Inclusa</h3>
       <p><strong>Valor Promocional:</strong> R$ 49,90 / mês (com 50% de desconto no 1º ano: 12x R$ 24,95)</p>
-      <p style="font-size: 0.85rem; color: #666;"><em>Vagas excedentes ao plano por apenas R$ 17,00 cada.</em></p>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn-action btn-accent" onclick="assinarPlano('Plano Base - R$ 49,90')">Contratar Plano Base</button>
-        <button class="btn-action" style="background-color: #f39c12; color: #000; font-size: 0.85rem;" onclick="comprarExcedente('Plano Base - R$ 17,00')">Contratar Vaga Avulsa Excedente</button>
-      </div>
+      <button type="button" class="btn-action btn-accent" onclick="assinarPlano('Plano Base - R$ 49,90')">Contratar Plano Base</button>
     </div>
 
     <!-- PLANO INTERMEDIÁRIO -->
     <div class="vaga-card">
-      <h3>Plano Intermediário (Até 10 Vagas / Trimestre)</h3>
+      <h3>Plano Intermediário (Até 10 Vagas / Trimestre) — 🌟 Com Jardi IA Inclusa</h3>
       <p><strong>Valor Promocional:</strong> R$ 69,90 / mês (com 50% de desconto no 1º ano: 12x R$ 34,95)</p>
-      <p style="font-size: 0.85rem; color: #666;"><em>Vagas excedentes ao plano por apenas R$ 16,00 cada.</em></p>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn-action btn-accent" onclick="assinarPlano('Plano Intermediário - R$ 69,90')">Contratar Plano Intermediário</button>
-        <button class="btn-action" style="background-color: #f39c12; color: #000; font-size: 0.85rem;" onclick="comprarExcedente('Plano Intermediário - R$ 16,00')">Contratar Vaga Avulsa Excedente</button>
-      </div>
-    </div>
-
-    <!-- PLANO AVANÇADO -->
-    <div class="vaga-card">
-      <h3>Plano Avançado (Até 20 Vagas / Trimestre)</h3>
-      <p><strong>Valor Promocional:</strong> R$ 99,90 / mês (com 50% de desconto no 1º ano: 12x R$ 49,95)</p>
-      <p style="font-size: 0.85rem; color: #666;"><em>Vagas excedentes ao plano por apenas R$ 15,00 cada.</em></p>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn-action btn-accent" onclick="assinarPlano('Plano Avançado - R$ 99,90')">Contratar Plano Avançado</button>
-        <button class="btn-action" style="background-color: #f39c12; color: #000; font-size: 0.85rem;" onclick="comprarExcedente('Plano Avançado - R$ 15,00')">Contratar Vaga Avulsa Excedente</button>
-      </div>
+      <button type="button" class="btn-action btn-accent" onclick="assinarPlano('Plano Intermediário - R$ 69,90')">Contratar Plano Intermediário</button>
     </div>
 
     <!-- PLANO VIP ILIMITADO -->
     <div class="vaga-card" style="border-left-color: #7b1fa2;">
-      <h3>Plano VIP Corporativo (Publicação Ilimitada)</h3>
+      <h3>Plano VIP Corporativo (Publicação Ilimitada) — 🌟 Com Jardi IA Inclusa</h3>
       <p><strong>Valor Promocional:</strong> R$ 199,90 / mês (com 50% de desconto no 1º ano: 12x R$ 99,95)</p>
-      <p style="font-size: 0.85rem; color: #666;"><em>Ideal para grandes empresas, indústrias e alto volume de contratação.</em></p>
-      <button class="btn-action" style="background-color: #7b1fa2;" onclick="assinarPlano('Plano VIP Corporativo - R$ 199,90')">Contratar Plano VIP Anjo</button>
+      <button type="button" class="btn-action" style="background-color: #7b1fa2;" onclick="assinarPlano('Plano VIP Corporativo - R$ 199,90')">Contratar Plano VIP Anjo</button>
     </div>
   </section>
 
-  <!-- 7. SEJA UM INVESTIDOR ANJO -->
-  <section class="section-card" style="border-color: #0a66c2; background-color: #f4f8fc;">
-    <h2 style="color: #0a66c2;">7. Seja um Investidor Anjo</h2>
-    <p>Acredita na inclusão humanizada e no impacto social? Entre em contato para apoiar e fortalecer a expansão da nossa tecnologia.</p>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-      <a href="https://wa.me/5549999208261?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20Investidor%20Anjo%20da%20RH%20Sem%20Limites" target="_blank" class="btn-action" style="background-color: #25d366;">
-        💬 Falar com o Diretor pelo WhatsApp (49) 99920-8261
-      </a>
-      <a href="mailto:rhsemlimites2024@gmail.com?subject=Proposta%20de%20Investimento%20Anjo" class="btn-action" style="background-color: #004182;">
-        ✉️ Enviar E-mail Institucional
-      </a>
+  <!-- REDES SOCIAIS -->
+  <section class="social-card">
+    <h3>🌐 Conecte-se com a RH Sem Limites</h3>
+    <p>Acompanhe orientações de carreira, novidades e depoimentos em nossos canais oficiais:</p>
+    <div class="social-buttons">
+      <button type="button" class="btn-action" style="background-color: #e1306c;" onclick="acessarRede('instagram')">📸 Instagram</button>
+      <button type="button" class="btn-action" style="background-color: #0077b5;" onclick="acessarRede('linkedin')">💼 LinkedIn</button>
+      <button type="button" class="btn-action" style="background-color: #cc0000;" onclick="acessarRede('youtube')">▶️ YouTube</button>
     </div>
   </section>
 
-  <!-- 8. FEEDBACK DO CLIENTE -->
-  <section class="section-card">
-    <h2>8. Avaliação de Serviço & Feedback do Cliente</h2>
-    <p>Sua opinião é fundamental para a constante evolução dos nossos serviços de consultoria.</p>
+  <!-- FEEDBACK -->
+  <footer class="footer-feedback">
+    <h3>💬 Sua voz importa para nós!</h3>
+    <p>Como está sendo sua experiência na RH Sem Limites? Deixe sua sugestão ou mensagem para nossa equipe:</p>
     <form onsubmit="enviarFeedbackEmpresa(event)">
-      <label><strong>Deixe sua mensagem ou sugestão para a RH Sem Limites:</strong></label>
-      <textarea rows="3" placeholder="Escreva aqui..." required></textarea>
-      <button type="submit" class="btn-action btn-accent">📩 Enviar Avaliação</button>
+      <textarea rows="2" placeholder="Escreva aqui..." required></textarea>
+      <button type="submit" class="btn-action btn-accent" style="margin-top: 8px;">Enviar Feedback</button>
     </form>
-  </section>
+  </footer>
 
-  <!-- BOTÃO DIRETO DE EXCLUIR CONTA -->
-  <div style="text-align: center; margin: 30px 0 10px 0;">
-    <button class="btn-action" style="background-color: #c62828;" onclick="excluirContaEmpresa()">
-      🗑️ Excluir Conta
+  <!-- BOTÕES DE GERENCIAMENTO DA CONTA DA EMPRESA -->
+  <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 20px 0 10px 0;">
+    <button type="button" class="btn-action" style="background-color: var(--primary);" onclick="editarCadastroEmpresa()">
+      ✏️ Editar Cadastro da Empresa
+    </button>
+    <button type="button" class="btn-action" style="background-color: #c62828;" onclick="excluirContaEmpresa()">
+      🗑️ Excluir Conta da Empresa
     </button>
   </div>
 
 </main>
 
+<!-- MODAL DO VÍDEO INSTITUCIONAL DA JARDI -->
+<div id="modalVideoJardi" class="modal-overlay hidden" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <h3 style="color: var(--jardi-dark); margin-top: 0;">📺 Conheça a Jardi - IA da RH Sem Limites</h3>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 16px;">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo Institucional Jardi" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen></iframe>
+    </div>
+    <div style="text-align: right;">
+      <button type="button" class="btn-action" style="background-color: #757575;" onclick="fecharModalVideoJardi()">Fechar</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  let dadosEmpresaAtual = null;
+
+  // CARREGA DADOS DA EMPRESA SALVOS NO LOCALSTORAGE
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const salvo = localStorage.getItem('rhSemLimites_empresaAtiva');
+      if (salvo) {
+        dadosEmpresaAtual = JSON.parse(salvo);
+        if (dadosEmpresaAtual.nomeFantasia) {
+          document.getElementById('nomeEmpresaHeader').innerText = `Bem-vinda, ${dadosEmpresaAtual.nomeFantasia}!`;
+        }
+        if (dadosEmpresaAtual.cidade) {
+          document.getElementById('subtituloEmpresaHeader').innerHTML =
+            `Painel Corporativo na <strong>RH Sem Limites</strong> — Localidade: <strong>${dadosEmpresaAtual.cidade} - ${dadosEmpresaAtual.estado || 'SC'}</strong>.`;
+        }
+        // Carrega unidas/filiais no select se houver
+        const selectUnidade = document.getElementById('selectUnidadeVaga');
+        selectUnidade.innerHTML = `<option value="Matriz (${dadosEmpresaAtual.cidade || 'Chapecó'} - ${dadosEmpresaAtual.estado || 'SC'})">Matriz (${dadosEmpresaAtual.cidade || 'Chapecó'} - ${dadosEmpresaAtual.estado || 'SC'})</option>`;
+        if (dadosEmpresaAtual.temOutrasLojas === 'Sim') {
+          selectUnidade.innerHTML += `<option value="Filial / Outra Unidade">Filial / Outra Unidade do Grupo</option>`;
+        }
+      }
+    } catch (e) {
+      console.log('Nenhum dado corporativo local encontrado.');
+    }
+  });
+
   function alternarAltoContraste() {
     document.body.classList.toggle('high-contrast');
   }
@@ -564,6 +597,48 @@
     document.getElementById('msgAuxilioNao').classList.add('hidden');
   }
 
+  // MODAL DE VÍDEO DA JARDI
+  function abrirModalVideoJardi() {
+    document.getElementById('modalVideoJardi').classList.remove('hidden');
+  }
+  function fecharModalVideoJardi() {
+    document.getElementById('modalVideoJardi').classList.add('hidden');
+  }
+
+  // VALIDAÇÃO E GERAÇÃO DA JARDI PARA A EMPRESA
+  function gerarVagaComJardi() {
+    // Validação se possui plano recorrente (Simulação baseada no cadastro ou seleção)
+    const planoAtivo = dadosEmpresaAtual?.plano || 'Plano Base'; 
+    if (planoAtivo === 'Avulso') {
+      alert('⚠️ A assistência da Jardi para criação de vagas é exclusiva para empresas com Planos Recorrentes ativos. Faça upgrade do seu plano para liberar esta tecnologia!');
+      return;
+    }
+
+    const prompt = document.getElementById('promptRascunhoJardi').value.trim();
+    if (!prompt) {
+      alert('Por favor, digite o que você precisa antes de acionar a Jardi.');
+      document.getElementById('promptRascunhoJardi').focus();
+      return;
+    }
+
+    alert('✨ A Jardi está processando seu pedido e estruturando um anúncio profissional, claro e inclusivo baseado no Método Profissional Anjo...');
+    
+    document.getElementById('vagaTitulo').value = prompt.charAt(0).toUpperCase() + prompt.slice(1);
+    document.getElementById('vagaNivel').value = 'Operacional / Auxiliar';
+    document.getElementById('vagaModelo').value = 'Presencial';
+    document.getElementById('vagaJornada').value = 'Segunda a Sexta-feira, horário comercial';
+    document.getElementById('vagaDescricao').value = `Oportunidade para atuar com dedicação e profissionalismo. Requisitos: perfil colaborativo, compromisso com a segurança e foco em resultados com respeito à diversidade e inclusão.`;
+
+    document.getElementById('formPublicarVaga').classList.remove('hidden');
+    document.getElementById('vagaTitulo').focus();
+    alert('Pronto! A Jardi estruturou os campos da vaga. Revise as informações e clique em "Publicar Vaga no Portal".');
+  }
+
+  function limparFormVaga() {
+    document.getElementById('formPublicarVaga').classList.add('hidden');
+    document.getElementById('promptRascunhoJardi').value = '';
+  }
+
   function salvarVagaEmpresa(e) {
     e.preventDefault();
     const titulo = document.getElementById('vagaTitulo').value;
@@ -578,75 +653,64 @@
     novoCard.id = vagaId;
     novoCard.innerHTML = `
       <h4 style="margin: 0 0 5px 0; color: var(--primary);">${titulo}</h4>
-      <p style="margin: 0; font-size: 0.9rem;"><strong>Status:</strong> <span style="color: green; font-weight: bold;">🟢 Ativa (60 dias)</span></p>
+      <p style="margin: 0; font-size: 0.9rem;"><strong>Unidade:</strong> ${document.getElementById('selectUnidadeVaga').value} | <strong>Status:</strong> <span style="color: green; font-weight: bold;">🟢 Ativa (60 dias)</span></p>
       <div class="vaga-actions">
-        <button class="btn-action btn-small" style="background-color: #333;" onclick="editarVaga('${vagaId}')">✏️ Editar Vaga</button>
-        <button class="btn-action btn-small btn-accent" onclick="concluirVaga('${vagaId}')">🟢 Marcar como Preenchida</button>
-        <button class="btn-action btn-small" style="background-color: #0077b5;" onclick="copiarTextoLinkedIn('${titulo}')">📢 Copiar p/ LinkedIn</button>
-        <button class="btn-action btn-small" style="background-color: #0a66c2;" onclick="prorrogarVaga('${vagaId}')">⏳ Prorrogar (+60 dias)</button>
-        <button class="btn-action btn-small" style="background-color: #c62828;" onclick="pausarExcluirVaga('${vagaId}')">🗑️ Excluir Vaga</button>
+        <button type="button" class="btn-action btn-small" style="background-color: #333;" onclick="editarVaga('${vagaId}')">✏️ Editar Vaga</button>
+        <button type="button" class="btn-action btn-small btn-accent" onclick="concluirVaga('${vagaId}')">🟢 Marcar como Preenchida</button>
+        <button type="button" class="btn-action btn-small" style="background-color: #c62828;" onclick="pausarExcluirVaga('${vagaId}')">🗑️ Excluir Vaga</button>
       </div>
     `;
 
     lista.appendChild(novoCard);
-    alert('Vaga cadastrada e publicada com sucesso!');
+    alert('Vaga publicada com sucesso no portal RH Sem Limites!');
     document.getElementById('formPublicarVaga').classList.add('hidden');
     document.getElementById('painelVagasCadastradas').classList.remove('hidden');
     e.target.reset();
   }
 
   function editarVaga(id) {
-    alert('Formulário de edição de vaga aberto.');
+    alert('Abrindo dados da vaga para edição.');
     alternarBloco('formPublicarVaga');
   }
 
   function concluirVaga(id) {
-    alert('Vaga marcada como PREENCHIDA!');
+    alert('Vaga marcada como PREENCHIDA com sucesso!');
     document.getElementById(id).style.opacity = '0.6';
   }
 
-  function prorrogarVaga(id) {
-    alert('Prazo de publicação prorrogado por mais 60 dias com sucesso!');
-  }
-
   function pausarExcluirVaga(id) {
-    if (confirm('Deseja realmente excluir esta vaga?')) {
+    if (confirm('Deseja realmente excluir esta vaga do portal?')) {
       document.getElementById(id).remove();
       alert('Vaga removida com sucesso.');
     }
   }
 
-  function copiarTextoLinkedIn(titulo) {
-    const texto = `Estamos contratando! Vaga para ${titulo}. Candidate-se em nosso portal: https://www.rhsemlimites.com.br`;
-    navigator.clipboard.writeText(texto);
-    alert('Texto copiado com sucesso!');
+  function assinarPlano(detalhes) {
+    alert(`Redirecionando para o checkout seguro de ${detalhes}...`);
   }
 
-  function solicitarConsultoriaParceira(e) {
-    e.preventDefault();
-    alert('Solicitação de consultoria/mentoria enviada com sucesso! Entraremos em contato.');
-    document.getElementById('boxMentores').classList.add('hidden');
+  function acessarRede(rede) {
+    if(rede === 'instagram') window.open('https://www.instagram.com/rhsemlimites_', '_blank');
+    if(rede === 'linkedin') window.open('https://www.linkedin.com/in/odacirdasilveira', '_blank');
+    if(rede === 'youtube') alert('Canal do YouTube em breve.');
   }
 
   function enviarFeedbackEmpresa(e) {
     e.preventDefault();
-    alert('Agradecemos seu feedback!');
+    alert('Agradecemos seu feedback! Ele é muito importante para nós.');
     e.target.reset();
   }
 
+  function editarCadastroEmpresa() {
+    window.location.href = 'empresa.html?editar=1';
+  }
+
   function excluirContaEmpresa() {
-    if (confirm('Deseja realmente excluir sua conta? Esta ação é irreversível.')) {
-      alert('Sua conta foi excluída com sucesso.');
+    if (confirm('Deseja realmente excluir a conta da empresa? Esta ação é irreversível.')) {
+      localStorage.removeItem('rhSemLimites_empresaAtiva');
+      alert('Conta excluída com sucesso.');
       window.location.href = 'index.html';
     }
-  }
-
-  function assinarPlano(detalhes) {
-    alert(`Redirecionando para o checkout de ${detalhes}...`);
-  }
-
-  function comprarExcedente(detalhesExcedente) {
-    alert(`Adicionando vaga excedente (${detalhesExcedente}) à fatura...`);
   }
 </script>
 

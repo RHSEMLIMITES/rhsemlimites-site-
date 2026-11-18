@@ -9,7 +9,7 @@
       --primary: #1a5f7a;
       --primary-dark: #134255;
       --accent: #2e7d32;
-      --warning-orange: #e67e22; /* Laranja planejado para o Primeiro Acesso */
+      --warning-orange: #e67e22;
       --bg-color: #f7f5f0;
       --card-bg: #ffffff;
       --text-color: #2c3e50;
@@ -55,7 +55,6 @@
       height: auto;
     }
 
-    /* Título limpo, sem caixa/retângulo verde */
     h1 {
       color: var(--accent);
       font-size: 1.4rem;
@@ -63,9 +62,6 @@
       margin-bottom: 25px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      background: none;
-      border: none;
-      padding: 0;
     }
 
     .btn-group {
@@ -92,7 +88,6 @@
       text-align: center;
     }
 
-    /* Botão de Primeiro Acesso com detalhe laranja e ícone de destaque */
     .btn-primeiro-acesso {
       background-color: #ffffff;
       color: var(--primary-dark);
@@ -186,14 +181,12 @@
 <body>
 
 <main class="container">
-  <!-- LOGOTIPO OFICIAL -->
   <div class="logo-container">
-    <img src="logo.jpg" alt="Logotipo da RH Sem Limites com a árvore da diversidade e seus frutos coloridos" class="logo-img">
+    <img src="logo.jpg" alt="Logotipo da RH Sem Limites" class="logo-img">
   </div>
 
   <h1>BEM-VINDO À RH SEM LIMITES</h1>
 
-  <!-- BOTÕES PRINCIPAIS -->
   <div class="btn-group">
     <button type="button" id="btnLogin" class="btn" aria-expanded="false" onclick="mostrarLogin()">Fazer Login</button>
     <button type="button" id="btnPrimeiroAcesso" class="btn btn-primeiro-acesso" aria-expanded="false" onclick="mostrarPrimeiroAcesso()">Primeiro Acesso / Cadastre-se</button>
@@ -219,6 +212,11 @@
       </div>
 
       <button type="submit" class="btn">Entrar</button>
+      
+      <!-- BOTÃO DE RECUPERAÇÃO DE SENHA -->
+      <div style="text-align: right; margin-top: 8px;">
+        <button type="button" class="link-sub" style="font-size: 0.9rem;" onclick="abrirRecuperarSenha()">Esqueceu sua senha?</button>
+      </div>
     </form>
   </div>
 
@@ -238,7 +236,7 @@
 </footer>
 
 <!-- MODAL FALE CONOSCO -->
-<div id="modalFaleConosco" class="box-opcao hidden" role="dialog" aria-modal="true" aria-label="Fale Conosco" style="position: fixed; top: 10%; left: 5%; right: 5%; max-width: 450px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+<div id="modalFaleConosco" class="box-opcao hidden" role="dialog" aria-modal="true" style="position: fixed; top: 10%; left: 5%; right: 5%; max-width: 450px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
   <h3>Fale Conosco - RH Sem Limites</h3>
   <form action="https://formsubmit.co/rhsemlimites2024@gmail.com" method="POST">
     <input type="hidden" name="_subject" value="Novo Contato pelo Site - RH Sem Limites">
@@ -265,8 +263,22 @@
   </form>
 </div>
 
-<!-- MODAL ADMIN / ADM -->
-<div id="modalAdmin" class="box-opcao hidden" role="dialog" aria-modal="true" aria-label="Acesso Restrito Administrador" style="position: fixed; top: 15%; left: 5%; right: 5%; max-width: 400px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+<!-- MODAL RECUPERAÇÃO DE SENHA -->
+<div id="modalRecuperarSenha" class="box-opcao hidden" role="dialog" aria-modal="true" style="position: fixed; top: 15%; left: 5%; right: 5%; max-width: 400px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+  <h3>Recuperar Acesso / Senha</h3>
+  <p style="font-size: 0.9rem; color: #555;">Digite seu e-mail cadastrado ou CNPJ/CPF para receber as instruções de redefinição:</p>
+  <form onsubmit="enviarRecuperacaoSenha(event)">
+    <div class="form-group">
+      <label for="dadoRecuperacao">E-mail, CPF ou CNPJ *</label>
+      <input type="text" id="dadoRecuperacao" placeholder="Digite aqui..." required>
+    </div>
+    <button type="submit" class="btn" style="background-color: var(--accent);">Enviar Instruções</button>
+    <button type="button" class="btn btn-primeiro-acesso" style="margin-top: 8px;" onclick="fecharRecuperarSenha()">Cancelar</button>
+  </form>
+</div>
+
+<!-- MODAL ADMIN -->
+<div id="modalAdmin" class="box-opcao hidden" role="dialog" aria-modal="true" style="position: fixed; top: 15%; left: 5%; right: 5%; max-width: 400px; margin: auto; background: white; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
   <h3>Acesso Restrito - Administrador</h3>
   <form onsubmit="acessarPainelAdmin(event)">
     <div class="form-group">
@@ -282,16 +294,12 @@
   function mostrarLogin() {
     document.getElementById('boxLogin').classList.remove('hidden');
     document.getElementById('boxPrimeiroAcesso').classList.add('hidden');
-    document.getElementById('btnLogin').setAttribute('aria-expanded', 'true');
-    document.getElementById('btnPrimeiroAcesso').setAttribute('aria-expanded', 'false');
     document.getElementById('campoUsuario').focus();
   }
 
   function mostrarPrimeiroAcesso() {
     document.getElementById('boxPrimeiroAcesso').classList.remove('hidden');
     document.getElementById('boxLogin').classList.add('hidden');
-    document.getElementById('btnPrimeiroAcesso').setAttribute('aria-expanded', 'true');
-    document.getElementById('btnLogin').setAttribute('aria-expanded', 'false');
     document.getElementById('linkCadCandidato').focus();
   }
 
@@ -320,11 +328,26 @@
 
   function abrirFaleConosco() {
     document.getElementById('modalFaleConosco').classList.remove('hidden');
-    document.getElementById('nomeContato').focus();
   }
 
   function fecharFaleConosco() {
     document.getElementById('modalFaleConosco').classList.add('hidden');
+  }
+
+  function abrirRecuperarSenha() {
+    document.getElementById('modalRecuperarSenha').classList.remove('hidden');
+    document.getElementById('dadoRecuperacao').focus();
+  }
+
+  function fecharRecuperarSenha() {
+    document.getElementById('modalRecuperarSenha').classList.add('hidden');
+    document.getElementById('dadoRecuperacao').value = '';
+  }
+
+  function enviarRecuperacaoSenha(e) {
+    e.preventDefault();
+    alert('Se o dado informado estiver cadastrado, as instruções de recuperação de senha foram enviadas para o seu e-mail.');
+    fecharRecuperarSenha();
   }
 
   function abrirAdmin() {
